@@ -5,7 +5,8 @@
   <title>KRUSPER - Creativity Meets Business</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500&display=swap" rel="stylesheet">
- 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
     * {
       margin: 0;
@@ -13,17 +14,91 @@
       box-sizing: border-box;
     }
 
-    html, body {
-      height: 100%;
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
       background: linear-gradient(to bottom, #0a0a2a, #1a1a3a, #0c0c1f);
       font-family: 'Inter', sans-serif;
       color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Navigation */
+    .navigation {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 25px 50px;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 10, 42, 0.3);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.2rem;
+      color: #fff;
+      text-decoration: none;
+      text-shadow: 0 0 10px rgba(100, 150, 255, 0.5);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+    }
+
+    .nav-link {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-weight: 400;
+      letter-spacing: 0.05rem;
+      transition: all 0.3s ease;
+      position: relative;
+      padding: 5px 0;
+    }
+
+    .nav-link:hover {
+      color: #fff;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #fff, transparent);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Main hero section */
+    .hero-section {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
       overflow: hidden;
     }
 
-    /* Water surface covering entire screen */
+    /* Water surface covering everything */
     .water-surface {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
@@ -34,6 +109,7 @@
         rgba(20, 40, 100, 0.8) 100%);
       z-index: 1;
       overflow: hidden;
+      pointer-events: none;
     }
 
     /* Water waves */
@@ -61,39 +137,24 @@
       bottom: 20%;
     }
 
-    /* Main content container floating on water */
-    .content-container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 20;
-      width: 600px;
-      height: 300px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Large fluid glass panel covering everything */
+    /* Large fluid glass overlay */
     .fluid-glass-overlay {
-      position: absolute;
+      position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 90vw;
-      height: 90vh;
+      width: 100vw;
+      height: 100vh;
       background: rgba(255, 255, 255, 0.03);
       backdrop-filter: blur(20px);
-      border-radius: 30px;
+      border-radius: 0;
       border: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: 
         0 30px 60px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.1),
         0 0 0 1px rgba(255, 255, 255, 0.05);
       overflow: hidden;
-      z-index: 10;
+      z-index: 2;
       pointer-events: none;
     }
 
@@ -120,20 +181,28 @@
       background: rgba(255, 255, 255, 0.1);
       border-radius: 50%;
       animation: dropletFall 6s infinite linear;
-      z-index: 11;
+      z-index: 3;
+      pointer-events: none;
     }
 
     /* Logo styling */
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      max-width: 800px;
+      padding: 0 20px;
+    }
+
     .logo-main {
       font-family: 'Orbitron', sans-serif;
-      font-size: 4rem;
+      font-size: 4.5rem;
       font-weight: 700;
       letter-spacing: 0.5rem;
       color: #fff;
       text-align: center;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       position: relative;
-      z-index: 30;
       text-shadow: 
         0 0 30px rgba(100, 150, 255, 0.7),
         0 0 60px rgba(100, 150, 255, 0.4);
@@ -142,21 +211,351 @@
 
     .logo-subtitle {
       font-family: 'Inter', sans-serif;
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       font-weight: 300;
       letter-spacing: 0.2rem;
       color: rgba(255, 255, 255, 0.9);
       text-align: center;
       position: relative;
-      z-index: 30;
-      padding: 10px 30px;
+      padding: 15px 40px;
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(10px);
       border-radius: 50px;
       border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 40px;
+      display: inline-block;
     }
 
-    /* Floating elements that appear as if on water */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+      letter-spacing: 0.1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .scroll-arrow {
+      width: 30px;
+      height: 50px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 20px;
+      position: relative;
+    }
+
+    .scroll-arrow::after {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 2px;
+      animation: scrollBounce 2s infinite;
+    }
+
+    /* What We Do Section */
+    .what-we-do-section {
+      min-height: 100vh;
+      padding: 150px 50px 100px;
+      position: relative;
+      z-index: 5;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem;
+      font-weight: 600;
+      letter-spacing: 0.3rem;
+      margin-bottom: 80px;
+      text-align: center;
+      position: relative;
+      color: #fff;
+      text-shadow: 0 0 20px rgba(100, 150, 255, 0.5);
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 2px;
+      background: linear-gradient(to right, transparent, #4facfe, transparent);
+    }
+
+    /* Services grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      margin-bottom: 80px;
+    }
+
+    /* Service item - closed state */
+    .service-item {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      cursor: pointer;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+      position: relative;
+      overflow: hidden;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .service-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent 30%, rgba(100, 150, 255, 0.05) 50%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .service-item:hover {
+      transform: translateY(-10px);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .service-item:hover::before {
+      opacity: 1;
+    }
+
+    /* Service icon */
+    .service-icon {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #4facfe;
+      text-align: center;
+    }
+
+    .service-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .service-description {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* Service item - expanded state (like peacock feathers) */
+    .service-item.expanded {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90vw;
+      height: 90vh;
+      z-index: 2000;
+      border-radius: 30px;
+      padding: 60px;
+      cursor: default;
+      overflow-y: auto;
+      backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 
+        0 40px 80px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      animation: featherExpand 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .expanded-content {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.5s 0.3s forwards;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .expanded-icon {
+      font-size: 4rem;
+      margin-bottom: 30px;
+      color: #4facfe;
+      text-align: center;
+    }
+
+    .expanded-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem;
+      font-weight: 600;
+      margin-bottom: 30px;
+      text-align: center;
+      color: #fff;
+      letter-spacing: 0.1rem;
+    }
+
+    .expanded-description {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.8;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .expanded-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 50px;
+    }
+
+    .detail-item {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 25px;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .detail-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #4facfe;
+    }
+
+    .detail-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+    }
+
+    .close-expanded {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.8);
+      transition: all 0.3s ease;
+      z-index: 2001;
+    }
+
+    .close-expanded:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      transform: rotate(90deg);
+    }
+
+    /* Overlay for expanded items */
+    .expanded-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      z-index: 1999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    .expanded-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 50px;
+      text-align: center;
+      position: relative;
+      z-index: 5;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 100px;
+    }
+
+    .email-link {
+      color: rgba(255, 255, 255, 0.8);
+      font-family: 'Inter', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      letter-spacing: 0.1rem;
+      text-decoration: none;
+      padding: 15px 40px;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+      display: inline-block;
+      margin-bottom: 30px;
+    }
+
+    .email-link:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 
+        0 15px 30px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+
+    .copyright {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 0.05rem;
+      margin-top: 20px;
+    }
+
+    /* Water ripples */
+    .water-ripple {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      animation: rippleExpand 3s infinite ease-out;
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    /* Floating elements */
     .floating-element {
       position: absolute;
       background: rgba(255, 255, 255, 0.1);
@@ -164,17 +563,8 @@
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 20px;
       animation: floatOnWater 8s infinite ease-in-out;
-      z-index: 15;
-    }
-
-    /* Water ripples from floating elements */
-    .water-ripple {
-      position: absolute;
-      border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      animation: rippleExpand 3s infinite ease-out;
+      z-index: 3;
       pointer-events: none;
-      z-index: 5;
     }
 
     /* Reflection effect */
@@ -192,41 +582,7 @@
       -webkit-mask-image: linear-gradient(to bottom, transparent, black 50%);
       z-index: 2;
       opacity: 0.3;
-    }
-
-    /* Email styling */
-    .email-container {
-      position: absolute;
-      bottom: 40px;
-      width: 100%;
-      text-align: center;
-      z-index: 30;
-    }
-
-    .email-link {
-      color: rgba(255, 255, 255, 0.8);
-      font-family: 'Inter', sans-serif;
-      font-size: 1rem;
-      font-weight: 400;
-      letter-spacing: 0.1rem;
-      text-decoration: none;
-      padding: 15px 40px;
-      border-radius: 50px;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: all 0.3s ease;
-      display: inline-block;
-    }
-
-    .email-link:hover {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.15);
-      border-color: rgba(255, 255, 255, 0.4);
-      transform: translateY(-3px);
-      box-shadow: 
-        0 15px 30px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.1);
+      pointer-events: none;
     }
 
     /* Animations */
@@ -268,15 +624,9 @@
     @keyframes floatOnWater {
       0%, 100% {
         transform: translateY(0) rotate(0deg);
-        box-shadow: 
-          0 10px 20px rgba(0, 0, 0, 0.2),
-          inset 0 1px 0 rgba(255, 255, 255, 0.1);
       }
       50% {
         transform: translateY(-20px) rotate(2deg);
-        box-shadow: 
-          0 20px 40px rgba(0, 0, 0, 0.3),
-          inset 0 1px 0 rgba(255, 255, 255, 0.2);
       }
     }
 
@@ -293,41 +643,113 @@
       }
     }
 
-    @keyframes shimmer {
+    @keyframes scrollBounce {
       0%, 100% {
-        background-position: -1000px 0;
+        transform: translateX(-50%) translateY(0);
+      }
+      50% {
+        transform: translateX(-50%) translateY(10px);
+      }
+    }
+
+    @keyframes featherExpand {
+      0% {
+        width: 300px;
+        height: 200px;
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
       }
       100% {
-        background-position: 1000px 0;
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
 
     /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .content-container {
-        width: 90%;
-        height: 250px;
+    @media (max-width: 1024px) {
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
-     
-      .fluid-glass-overlay {
+      
+      .service-item.expanded {
         width: 95vw;
         height: 95vh;
+        padding: 40px;
       }
-     
+    }
+
+    @media (max-width: 768px) {
+      .navigation {
+        padding: 20px;
+      }
+      
+      .nav-links {
+        gap: 20px;
+      }
+      
       .logo-main {
-        font-size: 2.5rem;
+        font-size: 3rem;
         letter-spacing: 0.3rem;
       }
-     
+      
       .logo-subtitle {
-        font-size: 1.1rem;
-        letter-spacing: 0.1rem;
-        padding: 8px 20px;
-      }
-     
-      .email-link {
+        font-size: 1.2rem;
         padding: 12px 30px;
-        font-size: 0.9rem;
+      }
+      
+      .section-title {
+        font-size: 2.2rem;
+      }
+      
+      .what-we-do-section {
+        padding: 120px 20px 80px;
+      }
+      
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .service-item.expanded {
+        padding: 30px 20px;
+        border-radius: 20px;
+      }
+      
+      .expanded-title {
+        font-size: 2.2rem;
+      }
+      
+      .expanded-icon {
+        font-size: 3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navigation {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .logo-main {
+        font-size: 2.5rem;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      .service-item {
+        padding: 25px 20px;
       }
     }
   </style>
@@ -339,69 +761,295 @@
     <div class="wave"></div>
     <div class="wave"></div>
     <div class="wave"></div>
+    <div class="water-reflection"></div>
   </div>
 
   <!-- Large fluid glass overlay -->
   <div class="fluid-glass-overlay" id="fluidGlass">
     <div class="fluid-flow"></div>
-    <div class="water-reflection"></div>
   </div>
 
-  <!-- Main content -->
-  <div class="content-container">
-    <div class="logo-main">K R U S P E R</div>
-    <div class="logo-subtitle">Creativity Meets Business</div>
-  </div>
+  <!-- Navigation -->
+  <nav class="navigation">
+    <a href="#" class="nav-logo">KRUSPER</a>
+    <div class="nav-links">
+      <a href="#home" class="nav-link">Home</a>
+      <a href="#what-we-do" class="nav-link">What We Do</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
 
-  <!-- Email -->
-  <div class="email-container">
+  <!-- Hero Section -->
+  <section class="hero-section" id="home">
+    <div class="hero-content">
+      <div class="logo-main">K R U S P E R</div>
+      <div class="logo-subtitle">Creativity Meets Business</div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll to explore</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- What We Do Section -->
+  <section class="what-we-do-section" id="what-we-do">
+    <h2 class="section-title">WHAT WE DO</h2>
+    
+    <div class="services-grid">
+      <!-- Service 1 -->
+      <div class="service-item" data-service="1">
+        <div class="service-icon"><i class="fas fa-paint-brush"></i></div>
+        <h3 class="service-title">Creative Websites</h3>
+        <p class="service-description">Unique, visually stunning websites that captivate your audience and reflect your brand identity.</p>
+      </div>
+      
+      <!-- Service 2 -->
+      <div class="service-item" data-service="2">
+        <div class="service-icon"><i class="fas fa-mobile-alt"></i></div>
+        <h3 class="service-title">Mobile-first & Fast Loading</h3>
+        <p class="service-description">Optimized for all devices with lightning-fast load times to keep visitors engaged.</p>
+      </div>
+      
+      <!-- Service 3 -->
+      <div class="service-item" data-service="3">
+        <div class="service-icon"><i class="fas fa-calendar-check"></i></div>
+        <h3 class="service-title">Take Appointments Automatically</h3>
+        <p class="service-description">Streamline scheduling with automated appointment systems that work 24/7.</p>
+      </div>
+      
+      <!-- Service 4 -->
+      <div class="service-item" data-service="4">
+        <div class="service-icon"><i class="fab fa-whatsapp"></i></div>
+        <h3 class="service-title">WhatsApp & Call Integrations</h3>
+        <p class="service-description">Seamlessly connect with customers through integrated communication channels.</p>
+      </div>
+      
+      <!-- Service 5 -->
+      <div class="service-item" data-service="5">
+        <div class="service-icon"><i class="fas fa-bullseye"></i></div>
+        <h3 class="service-title">Lead Capture & Follow-ups</h3>
+        <p class="service-description">Capture every potential customer and automate follow-up processes to maximize conversions.</p>
+      </div>
+      
+      <!-- Service 6 -->
+      <div class="service-item" data-service="6">
+        <div class="service-icon"><i class="fas fa-chart-line"></i></div>
+        <h3 class="service-title">Increase Customers and Leads</h3>
+        <p class="service-description">Data-driven strategies to grow your customer base and generate quality leads consistently.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Expanded Service Overlay -->
+  <div class="expanded-overlay" id="expandedOverlay"></div>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
     <a href="mailto:arunjackson293@gmail.com" class="email-link">@arunjackson293@gmail.com</a>
-  </div>
+    <p class="copyright">&copy; 2023 KRUSPER. All rights reserved. Creativity Meets Business.</p>
+  </footer>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const waterSurface = document.getElementById('waterSurface');
       const fluidGlass = document.getElementById('fluidGlass');
+      const expandedOverlay = document.getElementById('expandedOverlay');
+      const serviceItems = document.querySelectorAll('.service-item');
+      let expandedService = null;
 
-      // Create floating elements that appear as if on water
-      const floatingElements = [
-        { width: 120, height: 40, top: '20%', left: '10%', delay: 0 },
-        { width: 80, height: 80, top: '70%', left: '15%', delay: 1 },
-        { width: 60, height: 60, top: '30%', left: '80%', delay: 2 },
-        { width: 100, height: 50, top: '60%', left: '75%', delay: 3 },
-        { width: 70, height: 70, top: '40%', left: '50%', delay: 4 },
-      ];
+      // Service data for expanded view
+      const serviceData = {
+        1: {
+          title: "Creative Websites",
+          icon: "fas fa-paint-brush",
+          description: "We design and develop unique, visually stunning websites that not only captivate your audience but also perfectly reflect your brand identity. Our creative approach ensures your online presence stands out in today's crowded digital landscape.",
+          details: [
+            {
+              title: "Custom Design",
+              text: "Every website is uniquely crafted to match your brand personality and business goals."
+            },
+            {
+              title: "User Experience Focus",
+              text: "Intuitive navigation and engaging interfaces that keep visitors exploring."
+            },
+            {
+              title: "Visual Storytelling",
+              text: "We use visuals, animations, and interactions to tell your brand story effectively."
+            },
+            {
+              title: "Brand Consistency",
+              text: "Ensuring your website aligns perfectly with your overall brand identity."
+            }
+          ]
+        },
+        2: {
+          title: "Mobile-first & Fast Loading",
+          icon: "fas fa-mobile-alt",
+          description: "In today's mobile-dominated world, we build websites that perform exceptionally on all devices. Our focus on speed optimization ensures your visitors never wait, reducing bounce rates and improving engagement.",
+          details: [
+            {
+              title: "Responsive Design",
+              text: "Flawless experience across smartphones, tablets, and desktop devices."
+            },
+            {
+              title: "Performance Optimization",
+              text: "Advanced techniques to ensure lightning-fast load times and smooth interactions."
+            },
+            {
+              title: "Core Web Vitals",
+              text: "Optimized for Google's performance metrics to improve SEO rankings."
+            },
+            {
+              title: "Progressive Web Apps",
+              text: "Transform your website into an app-like experience for mobile users."
+            }
+          ]
+        },
+        3: {
+          title: "Take Appointments Automatically",
+          icon: "fas fa-calendar-check",
+          description: "Streamline your scheduling process with intelligent automated systems that work around the clock. Reduce no-shows, eliminate double bookings, and save valuable administrative time.",
+          details: [
+            {
+              title: "24/7 Scheduling",
+              text: "Clients can book appointments anytime, from anywhere in the world."
+            },
+            {
+              title: "Calendar Integration",
+              text: "Syncs with popular calendar apps to prevent scheduling conflicts."
+            },
+            {
+              title: "Automated Reminders",
+              text: "Reduce no-shows with email and SMS reminders sent before appointments."
+            },
+            {
+              title: "Custom Booking Forms",
+              text: "Collect necessary information during the booking process."
+            }
+          ]
+        },
+        4: {
+          title: "WhatsApp & Call Integrations",
+          icon: "fab fa-whatsapp",
+          description: "Connect with your customers through their preferred communication channels. Our seamless integrations make it easy for potential clients to reach you instantly, improving conversion rates and customer satisfaction.",
+          details: [
+            {
+              title: "One-click Communication",
+              text: "Visitors can contact you directly via WhatsApp or phone with a single click."
+            },
+            {
+              title: "Automated Responses",
+              text: "Set up automated replies for after-hours inquiries or common questions."
+            },
+            {
+              title: "Lead Qualification",
+              text: "Capture essential information before connecting customers with your team."
+            },
+            {
+              title: "Analytics & Tracking",
+              text: "Monitor which channels generate the most quality leads and conversions."
+            }
+          ]
+        },
+        5: {
+          title: "Lead Capture & Follow-ups",
+          icon: "fas fa-bullseye",
+          description: "Never miss a potential customer with our sophisticated lead capture systems. We implement automated follow-up sequences that nurture prospects through the sales funnel, converting more visitors into paying customers.",
+          details: [
+            {
+              title: "Smart Forms",
+              text: "Interactive forms that capture leads without disrupting user experience."
+            },
+            {
+              title: "Automated Nurturing",
+              text: "Personalized email sequences that build relationships with potential customers."
+            },
+            {
+              title: "CRM Integration",
+              text: "Seamlessly connect captured leads with your existing customer relationship tools."
+            },
+            {
+              title: "Lead Scoring",
+              text: "Identify hot leads ready for immediate follow-up based on engagement."
+            }
+          ]
+        },
+        6: {
+          title: "Increase Customers and Leads",
+          icon: "fas fa-chart-line",
+          description: "Our data-driven approach focuses on growing your customer base and generating consistent, high-quality leads. We combine creative design with strategic marketing to deliver measurable business growth.",
+          details: [
+            {
+              title: "Conversion Optimization",
+              text: "Strategically placed calls-to-action and persuasive design to increase conversions."
+            },
+            {
+              title: "SEO Strategy",
+              text: "Optimize your online presence to attract organic traffic from search engines."
+            },
+            {
+              title: "Analytics & Insights",
+              text: "Data-driven decisions based on user behavior and performance metrics."
+            },
+            {
+              title: "Growth Strategy",
+              text: "Continuous improvement based on performance data and market trends."
+            }
+          ]
+        }
+      };
 
-      floatingElements.forEach(element => {
-        const el = document.createElement('div');
-        el.classList.add('floating-element');
-        el.style.width = `${element.width}px`;
-        el.style.height = `${element.height}px`;
-        el.style.top = element.top;
-        el.style.left = element.left;
-        el.style.animationDelay = `${element.delay}s`;
-        el.style.animationDuration = `${8 + Math.random() * 4}s`;
-        el.style.background = `radial-gradient(circle at 30% 30%, 
-          rgba(${100 + Math.random() * 155}, ${100 + Math.random() * 155}, 255, 0.15),
-          rgba(${50 + Math.random() * 100}, ${50 + Math.random() * 100}, 200, 0.05))`;
-        
-        document.body.appendChild(el);
+      // Create floating elements
+      createFloatingElements();
+      
+      // Create water droplets
+      createDroplets();
+      
+      // Create water ripples
+      setupRipples();
+      
+      // Setup service item interactions
+      setupServiceItems();
+      
+      // Setup smooth scroll for navigation links
+      setupSmoothScroll();
+      
+      // Setup interactive water effects
+      setupWaterEffects();
 
-        // Create ripples for each floating element
-        setInterval(() => {
-          createRipple(
-            parseFloat(element.left) / 100 * window.innerWidth + element.width / 2,
-            parseFloat(element.top) / 100 * window.innerHeight + element.height / 2
-          );
-        }, 2000 + Math.random() * 3000);
-      });
+      function createFloatingElements() {
+        const floatingElements = [
+          { width: 120, height: 40, top: '20%', left: '10%', delay: 0 },
+          { width: 80, height: 80, top: '70%', left: '15%', delay: 1 },
+          { width: 60, height: 60, top: '30%', left: '80%', delay: 2 },
+          { width: 100, height: 50, top: '60%', left: '75%', delay: 3 },
+          { width: 70, height: 70, top: '40%', left: '50%', delay: 4 },
+        ];
 
-      // Create water droplets on glass
-      for (let i = 0; i < 30; i++) {
-        setTimeout(() => {
-          createDroplet();
-          setInterval(createDroplet, 2000 + Math.random() * 3000);
-        }, i * 300);
+        floatingElements.forEach(element => {
+          const el = document.createElement('div');
+          el.classList.add('floating-element');
+          el.style.width = `${element.width}px`;
+          el.style.height = `${element.height}px`;
+          el.style.top = element.top;
+          el.style.left = element.left;
+          el.style.animationDelay = `${element.delay}s`;
+          el.style.animationDuration = `${8 + Math.random() * 4}s`;
+          el.style.background = `radial-gradient(circle at 30% 30%, 
+            rgba(${100 + Math.random() * 155}, ${100 + Math.random() * 155}, 255, 0.15),
+            rgba(${50 + Math.random() * 100}, ${50 + Math.random() * 100}, 200, 0.05))`;
+          
+          document.body.appendChild(el);
+        });
+      }
+
+      function createDroplets() {
+        for (let i = 0; i < 30; i++) {
+          setTimeout(() => {
+            createDroplet();
+            setInterval(createDroplet, 2000 + Math.random() * 3000);
+          }, i * 300);
+        }
       }
 
       function createDroplet() {
@@ -419,21 +1067,22 @@
         }, 6000);
       }
 
-      // Create interactive ripples on mouse movement (only in lower part)
-      document.addEventListener('mousemove', (e) => {
-        // Create ripples when mouse is in lower 2/3 of screen
-        if (e.clientY > window.innerHeight / 3) {
-          createRipple(e.clientX, e.clientY);
-        }
-      });
+      function setupRipples() {
+        // Automatic ripple generation
+        setInterval(() => {
+          createRipple(
+            Math.random() * window.innerWidth,
+            window.innerHeight * 0.3 + Math.random() * window.innerHeight * 0.7
+          );
+        }, 800);
 
-      // Automatic ripple generation
-      setInterval(() => {
-        createRipple(
-          Math.random() * window.innerWidth,
-          window.innerHeight * 0.3 + Math.random() * window.innerHeight * 0.7
-        );
-      }, 800);
+        // Interactive ripples on mouse movement (only in lower part)
+        document.addEventListener('mousemove', (e) => {
+          if (e.clientY > window.innerHeight / 3) {
+            createRipple(e.clientX, e.clientY);
+          }
+        });
+      }
 
       function createRipple(x, y) {
         const ripple = document.createElement('div');
@@ -448,42 +1097,133 @@
         }, 3000);
       }
 
-      // Interactive water distortion effect
-      document.addEventListener('mousemove', (e) => {
-        const x = e.clientX / window.innerWidth;
-        const y = e.clientY / window.innerHeight;
-        
-        // Apply distortion to glass based on mouse position
-        fluidGlass.style.transform = `translate(-50%, -50%) perspective(1000px) rotateY(${(x - 0.5) * 3}deg) rotateX(${(0.5 - y) * 3}deg)`;
-        
-        // Water wave distortion
-        const waves = document.querySelectorAll('.wave');
-        waves.forEach((wave, index) => {
-          const intensity = (3 - index) * 0.5;
-          wave.style.transform = `translateX(${(x - 0.5) * intensity * -5}%) rotate(${(x - 0.5) * intensity * 5}deg)`;
+      function setupServiceItems() {
+        serviceItems.forEach(item => {
+          // Add scroll animation
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.style.opacity = 1;
+                entry.target.style.transform = 'translateY(0)';
+              }
+            });
+          }, { threshold: 0.1 });
+          
+          observer.observe(item);
+          
+          // Set initial state for animation
+          item.style.opacity = 0;
+          item.style.transform = 'translateY(30px)';
+          item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+          
+          // Click to expand
+          item.addEventListener('click', function() {
+            const serviceId = this.getAttribute('data-service');
+            expandService(serviceId);
+          });
         });
-      });
+      }
 
-      document.addEventListener('mouseleave', () => {
-        fluidGlass.style.transform = 'translate(-50%, -50%) perspective(1000px) rotateY(0deg) rotateX(0deg)';
-        const waves = document.querySelectorAll('.wave');
-        waves.forEach(wave => {
-          wave.style.transform = '';
+      function expandService(serviceId) {
+        if (expandedService) return;
+        
+        expandedService = serviceId;
+        const service = serviceData[serviceId];
+        
+        // Create expanded service element
+        const expandedEl = document.createElement('div');
+        expandedEl.className = 'service-item expanded';
+        expandedEl.innerHTML = `
+          <div class="close-expanded"><i class="fas fa-times"></i></div>
+          <div class="expanded-content">
+            <div class="expanded-icon"><i class="${service.icon}"></i></div>
+            <h2 class="expanded-title">${service.title}</h2>
+            <p class="expanded-description">${service.description}</p>
+            <div class="expanded-details">
+              ${service.details.map(detail => `
+                <div class="detail-item">
+                  <h3 class="detail-title">${detail.title}</h3>
+                  <p class="detail-text">${detail.text}</p>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+        
+        document.body.appendChild(expandedEl);
+        expandedOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Close functionality
+        const closeBtn = expandedEl.querySelector('.close-expanded');
+        closeBtn.addEventListener('click', closeExpandedService);
+        
+        expandedOverlay.addEventListener('click', closeExpandedService);
+        
+        // ESC key to close
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') closeExpandedService();
         });
-      });
+      }
 
-      // Create subtle background shimmer
-      const shimmer = document.createElement('div');
-      shimmer.style.position = 'fixed';
-      shimmer.style.top = '0';
-      shimmer.style.left = '0';
-      shimmer.style.width = '100%';
-      shimmer.style.height = '100%';
-      shimmer.style.background = 'linear-gradient(90deg, transparent, rgba(255,255,255,0.02), transparent)';
-      shimmer.style.animation = 'shimmer 8s infinite linear';
-      shimmer.style.pointerEvents = 'none';
-      shimmer.style.zIndex = '25';
-      document.body.appendChild(shimmer);
+      function closeExpandedService() {
+        const expandedEl = document.querySelector('.service-item.expanded');
+        if (!expandedEl) return;
+        
+        expandedEl.style.animation = 'featherExpand 0.4s reverse forwards';
+        
+        setTimeout(() => {
+          expandedEl.remove();
+          expandedOverlay.classList.remove('active');
+          document.body.style.overflow = 'auto';
+          expandedService = null;
+        }, 400);
+      }
+
+      function setupSmoothScroll() {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+              window.scrollTo({
+                top: targetElement.offsetTop - 80,
+                behavior: 'smooth'
+              });
+            }
+          });
+        });
+      }
+
+      function setupWaterEffects() {
+        // Interactive water distortion effect
+        document.addEventListener('mousemove', (e) => {
+          const x = e.clientX / window.innerWidth;
+          const y = e.clientY / window.innerHeight;
+          
+          // Apply distortion to glass based on mouse position
+          fluidGlass.style.transform = `translate(-50%, -50%) perspective(1000px) rotateY(${(x - 0.5) * 3}deg) rotateX(${(0.5 - y) * 3}deg)`;
+          
+          // Water wave distortion
+          const waves = document.querySelectorAll('.wave');
+          waves.forEach((wave, index) => {
+            const intensity = (3 - index) * 0.5;
+            wave.style.transform = `translateX(${(x - 0.5) * intensity * -5}%) rotate(${(x - 0.5) * intensity * 5}deg)`;
+          });
+        });
+
+        document.addEventListener('mouseleave', () => {
+          fluidGlass.style.transform = 'translate(-50%, -50%) perspective(1000px) rotateY(0deg) rotateX(0deg)';
+          const waves = document.querySelectorAll('.wave');
+          waves.forEach(wave => {
+            wave.style.transform = '';
+          });
+        });
+      }
     });
   </script>
 </body>
