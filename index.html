@@ -2,12 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>KRUSPER</title>
+  <title>KRUSPER - Creativity Meets Business</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Inter font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500&display=swap" rel="stylesheet">
+ 
   <style>
     * {
       margin: 0;
@@ -17,329 +15,475 @@
 
     html, body {
       height: 100%;
-      background: #000;
-      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(to bottom, #0a0a2a, #1a1a3a, #0c0c1f);
+      font-family: 'Inter', sans-serif;
       color: #fff;
       overflow: hidden;
     }
 
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    /* Animated background lights */
-    .lights-container {
+    /* Water surface covering entire screen */
+    .water-surface {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 0;
+      background: linear-gradient(to bottom, 
+        rgba(20, 30, 80, 0.3) 0%,
+        rgba(40, 60, 150, 0.5) 50%,
+        rgba(20, 40, 100, 0.8) 100%);
+      z-index: 1;
       overflow: hidden;
-      opacity: 0.5;
     }
 
-    .light {
+    /* Water waves */
+    .wave {
       position: absolute;
-      border-radius: 50%;
-      filter: blur(60px);
-      animation: float 15s infinite ease-in-out;
+      bottom: 0;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 40%;
+      animation: waveMove 15s infinite linear;
+      opacity: 0.3;
     }
 
-    .light-1 {
-      width: 300px;
-      height: 300px;
-      background: rgba(0, 150, 255, 0.15);
-      top: 10%;
-      left: 10%;
-      animation-delay: 0s;
-    }
-
-    .light-2 {
-      width: 400px;
-      height: 400px;
-      background: rgba(255, 50, 150, 0.1);
+    .wave:nth-child(2) {
+      animation-duration: 20s;
+      opacity: 0.2;
       bottom: 10%;
-      right: 10%;
-      animation-delay: -5s;
     }
 
-    .light-3 {
-      width: 250px;
-      height: 250px;
-      background: rgba(100, 255, 200, 0.1);
+    .wave:nth-child(3) {
+      animation-duration: 25s;
+      opacity: 0.15;
+      bottom: 20%;
+    }
+
+    /* Main content container floating on water */
+    .content-container {
+      position: absolute;
       top: 50%;
-      left: 70%;
-      animation-delay: -10s;
-    }
-
-    /* Main logo container */
-    .logo-container {
-      position: relative;
-      z-index: 2;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 20;
+      width: 600px;
+      height: 300px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
     }
 
-    /* Shiny logo text */
-    .logo {
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      font-weight: 700;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      position: relative;
-      background: linear-gradient(90deg, #fff, #aaa, #fff, #aaa, #fff);
-      background-size: 300% 100%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      animation: shine 6s infinite linear;
-      text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    /* Large fluid glass panel covering everything */
+    .fluid-glass-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90vw;
+      height: 90vh;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(20px);
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+      overflow: hidden;
+      z-index: 10;
+      pointer-events: none;
     }
 
-    /* Subtle glow effect around logo */
-    .logo-glow {
+    /* Dynamic fluid animation inside glass */
+    .fluid-flow {
       position: absolute;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-      border-radius: 20px;
-      z-index: -1;
-      animation: pulse 8s infinite alternate;
-    }
-
-    /* Shiny overlay that moves across the logo */
-    .logo-shine-overlay {
-      position: absolute;
-      top: -10px;
-      left: -100%;
       width: 200%;
-      height: calc(100% + 20px);
-      background: linear-gradient(90deg, 
-        transparent, 
-        rgba(255, 255, 255, 0.1), 
-        rgba(255, 255, 255, 0.2), 
-        rgba(255, 255, 255, 0.1), 
-        transparent);
-      transform: skewX(-15deg);
-      z-index: 1;
-      animation: slideShine 8s infinite ease-in-out;
-      animation-delay: 2s;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(100, 150, 255, 0.15) 50%,
+        transparent 70%
+      );
+      animation: fluidFlow 8s infinite linear;
+      mix-blend-mode: screen;
     }
 
-    /* Footer email with shine effect */
-    footer {
-      position: fixed;
-      bottom: 18px;
+    /* Water droplets on glass */
+    .droplet {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: dropletFall 6s infinite linear;
+      z-index: 11;
+    }
+
+    /* Logo styling */
+    .logo-main {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 4rem;
+      font-weight: 700;
+      letter-spacing: 0.5rem;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 15px;
+      position: relative;
+      z-index: 30;
+      text-shadow: 
+        0 0 30px rgba(100, 150, 255, 0.7),
+        0 0 60px rgba(100, 150, 255, 0.4);
+      filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5));
+    }
+
+    .logo-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      letter-spacing: 0.2rem;
+      color: rgba(255, 255, 255, 0.9);
+      text-align: center;
+      position: relative;
+      z-index: 30;
+      padding: 10px 30px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Floating elements that appear as if on water */
+    .floating-element {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      animation: floatOnWater 8s infinite ease-in-out;
+      z-index: 15;
+    }
+
+    /* Water ripples from floating elements */
+    .water-ripple {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      animation: rippleExpand 3s infinite ease-out;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* Reflection effect */
+    .water-reflection {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 100%
+      );
+      mask-image: linear-gradient(to bottom, transparent, black 50%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent, black 50%);
+      z-index: 2;
+      opacity: 0.3;
+    }
+
+    /* Email styling */
+    .email-container {
+      position: absolute;
+      bottom: 40px;
       width: 100%;
       text-align: center;
-      font-size: 14px;
-      font-weight: 300;
-      letter-spacing: 0.08em;
-      color: rgba(255, 255, 255, 0.6);
-      z-index: 2;
+      z-index: 30;
     }
 
     .email-link {
-      color: rgba(255, 255, 255, 0.7);
+      color: rgba(255, 255, 255, 0.8);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: 0.1rem;
       text-decoration: none;
-      position: relative;
-      padding: 0 5px;
-      transition: color 0.3s ease;
+      padding: 15px 40px;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+      display: inline-block;
     }
 
     .email-link:hover {
       color: #fff;
-    }
-
-    .email-link::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, #fff, transparent);
-      transform: scaleX(0);
-      transition: transform 0.3s ease;
-    }
-
-    .email-link:hover::after {
-      transform: scaleX(1);
-    }
-
-    /* Decorative particles */
-    .particles {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-    }
-
-    .particle {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 50%;
-      animation: floatParticle 20s infinite linear;
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 
+        0 15px 30px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
     }
 
     /* Animations */
-    @keyframes shine {
+    @keyframes waveMove {
       0% {
-        background-position: 0% 50%;
+        transform: translateX(0) rotate(0deg);
       }
       100% {
-        background-position: 300% 50%;
+        transform: translateX(-50%) rotate(360deg);
       }
     }
 
-    @keyframes slideShine {
-      0%, 20% {
-        left: -100%;
-      }
-      50% {
-        left: 0%;
-      }
-      80%, 100% {
-        left: 100%;
-      }
-    }
-
-    @keyframes float {
-      0%, 100% {
-        transform: translate(0, 0) scale(1);
-      }
-      33% {
-        transform: translate(30px, -30px) scale(1.1);
-      }
-      66% {
-        transform: translate(-20px, 20px) scale(0.9);
-      }
-    }
-
-    @keyframes pulse {
+    @keyframes fluidFlow {
       0% {
-        opacity: 0.3;
-        transform: scale(0.95);
+        transform: translateX(-50%) translateY(-50%) rotate(0deg);
       }
       100% {
-        opacity: 0.7;
-        transform: scale(1.05);
+        transform: translateX(0%) translateY(0%) rotate(360deg);
       }
     }
 
-    @keyframes floatParticle {
+    @keyframes dropletFall {
       0% {
-        transform: translateY(100vh) translateX(0) rotate(0deg);
+        transform: translateY(-100px) scale(0.5);
         opacity: 0;
       }
       10% {
-        opacity: 0.1;
+        opacity: 1;
       }
       90% {
-        opacity: 0.1;
+        opacity: 1;
       }
       100% {
-        transform: translateY(-100px) translateX(100px) rotate(360deg);
+        transform: translateY(100vh) scale(1);
         opacity: 0;
+      }
+    }
+
+    @keyframes floatOnWater {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+        box-shadow: 
+          0 10px 20px rgba(0, 0, 0, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
+      50% {
+        transform: translateY(-20px) rotate(2deg);
+        box-shadow: 
+          0 20px 40px rgba(0, 0, 0, 0.3),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      }
+    }
+
+    @keyframes rippleExpand {
+      0% {
+        width: 10px;
+        height: 10px;
+        opacity: 0.8;
+      }
+      100% {
+        width: 300px;
+        height: 300px;
+        opacity: 0;
+      }
+    }
+
+    @keyframes shimmer {
+      0%, 100% {
+        background-position: -1000px 0;
+      }
+      100% {
+        background-position: 1000px 0;
       }
     }
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
-      .logo {
-        letter-spacing: 0.2em;
+      .content-container {
+        width: 90%;
+        height: 250px;
       }
-      
-      .light {
-        filter: blur(40px);
+     
+      .fluid-glass-overlay {
+        width: 95vw;
+        height: 95vh;
       }
-      
-      .light-1, .light-2, .light-3 {
-        width: 200px;
-        height: 200px;
+     
+      .logo-main {
+        font-size: 2.5rem;
+        letter-spacing: 0.3rem;
+      }
+     
+      .logo-subtitle {
+        font-size: 1.1rem;
+        letter-spacing: 0.1rem;
+        padding: 8px 20px;
+      }
+     
+      .email-link {
+        padding: 12px 30px;
+        font-size: 0.9rem;
       }
     }
   </style>
 </head>
 
 <body>
-  <!-- Animated background lights -->
-  <div class="lights-container">
-    <div class="light light-1"></div>
-    <div class="light light-2"></div>
-    <div class="light light-3"></div>
+  <!-- Water surface covering everything -->
+  <div class="water-surface" id="waterSurface">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
   </div>
 
-  <!-- Floating particles -->
-  <div class="particles" id="particles"></div>
-
-  <!-- Main logo -->
-  <div class="logo-container">
-    <div class="logo-glow"></div>
-    <div class="logo-shine-overlay"></div>
-    <div class="logo">KRUSPER</div>
+  <!-- Large fluid glass overlay -->
+  <div class="fluid-glass-overlay" id="fluidGlass">
+    <div class="fluid-flow"></div>
+    <div class="water-reflection"></div>
   </div>
 
-  <footer>
+  <!-- Main content -->
+  <div class="content-container">
+    <div class="logo-main">K R U S P E R</div>
+    <div class="logo-subtitle">Creativity Meets Business</div>
+  </div>
+
+  <!-- Email -->
+  <div class="email-container">
     <a href="mailto:arunjackson293@gmail.com" class="email-link">@arunjackson293@gmail.com</a>
-  </footer>
+  </div>
 
   <script>
-    // Generate floating particles
     document.addEventListener('DOMContentLoaded', function() {
-      const particlesContainer = document.getElementById('particles');
-      const particleCount = 30;
-      
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
+      const waterSurface = document.getElementById('waterSurface');
+      const fluidGlass = document.getElementById('fluidGlass');
+
+      // Create floating elements that appear as if on water
+      const floatingElements = [
+        { width: 120, height: 40, top: '20%', left: '10%', delay: 0 },
+        { width: 80, height: 80, top: '70%', left: '15%', delay: 1 },
+        { width: 60, height: 60, top: '30%', left: '80%', delay: 2 },
+        { width: 100, height: 50, top: '60%', left: '75%', delay: 3 },
+        { width: 70, height: 70, top: '40%', left: '50%', delay: 4 },
+      ];
+
+      floatingElements.forEach(element => {
+        const el = document.createElement('div');
+        el.classList.add('floating-element');
+        el.style.width = `${element.width}px`;
+        el.style.height = `${element.height}px`;
+        el.style.top = element.top;
+        el.style.left = element.left;
+        el.style.animationDelay = `${element.delay}s`;
+        el.style.animationDuration = `${8 + Math.random() * 4}s`;
+        el.style.background = `radial-gradient(circle at 30% 30%, 
+          rgba(${100 + Math.random() * 155}, ${100 + Math.random() * 155}, 255, 0.15),
+          rgba(${50 + Math.random() * 100}, ${50 + Math.random() * 100}, 200, 0.05))`;
         
-        // Random size between 1px and 4px
-        const size = Math.random() * 3 + 1;
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        
-        // Random position
-        particle.style.left = `${Math.random() * 100}vw`;
-        
-        // Random animation delay and duration
-        const delay = Math.random() * 20;
-        const duration = 15 + Math.random() * 15;
-        particle.style.animationDelay = `${delay}s`;
-        particle.style.animationDuration = `${duration}s`;
-        
-        particlesContainer.appendChild(particle);
+        document.body.appendChild(el);
+
+        // Create ripples for each floating element
+        setInterval(() => {
+          createRipple(
+            parseFloat(element.left) / 100 * window.innerWidth + element.width / 2,
+            parseFloat(element.top) / 100 * window.innerHeight + element.height / 2
+          );
+        }, 2000 + Math.random() * 3000);
+      });
+
+      // Create water droplets on glass
+      for (let i = 0; i < 30; i++) {
+        setTimeout(() => {
+          createDroplet();
+          setInterval(createDroplet, 2000 + Math.random() * 3000);
+        }, i * 300);
       }
-      
-      // Add interactive mouse effect for extra shine
-      document.addEventListener('mousemove', function(e) {
-        const shineOverlay = document.querySelector('.logo-shine-overlay');
+
+      function createDroplet() {
+        const droplet = document.createElement('div');
+        droplet.classList.add('droplet');
+        droplet.style.width = `${Math.random() * 10 + 5}px`;
+        droplet.style.height = droplet.style.width;
+        droplet.style.left = `${Math.random() * 100}%`;
+        droplet.style.top = '-50px';
+        droplet.style.animationDuration = `${Math.random() * 4 + 3}s`;
+        fluidGlass.appendChild(droplet);
+        
+        setTimeout(() => {
+          droplet.remove();
+        }, 6000);
+      }
+
+      // Create interactive ripples on mouse movement (only in lower part)
+      document.addEventListener('mousemove', (e) => {
+        // Create ripples when mouse is in lower 2/3 of screen
+        if (e.clientY > window.innerHeight / 3) {
+          createRipple(e.clientX, e.clientY);
+        }
+      });
+
+      // Automatic ripple generation
+      setInterval(() => {
+        createRipple(
+          Math.random() * window.innerWidth,
+          window.innerHeight * 0.3 + Math.random() * window.innerHeight * 0.7
+        );
+      }, 800);
+
+      function createRipple(x, y) {
+        const ripple = document.createElement('div');
+        ripple.classList.add('water-ripple');
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        ripple.style.animationDuration = `${Math.random() * 2 + 2}s`;
+        waterSurface.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 3000);
+      }
+
+      // Interactive water distortion effect
+      document.addEventListener('mousemove', (e) => {
         const x = e.clientX / window.innerWidth;
         const y = e.clientY / window.innerHeight;
         
-        // Subtly adjust shine based on mouse position
-        shineOverlay.style.opacity = 0.7 + (y * 0.3);
-      });
-      
-      // Add occasional random sparkle effect
-      setInterval(() => {
-        const logo = document.querySelector('.logo');
-        logo.style.textShadow = `0 0 20px rgba(255, 255, 255, ${0.2 + Math.random() * 0.3})`;
+        // Apply distortion to glass based on mouse position
+        fluidGlass.style.transform = `translate(-50%, -50%) perspective(1000px) rotateY(${(x - 0.5) * 3}deg) rotateX(${(0.5 - y) * 3}deg)`;
         
-        setTimeout(() => {
-          logo.style.textShadow = '0 0 15px rgba(255, 255, 255, 0.1)';
-        }, 300);
-      }, 3000);
+        // Water wave distortion
+        const waves = document.querySelectorAll('.wave');
+        waves.forEach((wave, index) => {
+          const intensity = (3 - index) * 0.5;
+          wave.style.transform = `translateX(${(x - 0.5) * intensity * -5}%) rotate(${(x - 0.5) * intensity * 5}deg)`;
+        });
+      });
+
+      document.addEventListener('mouseleave', () => {
+        fluidGlass.style.transform = 'translate(-50%, -50%) perspective(1000px) rotateY(0deg) rotateX(0deg)';
+        const waves = document.querySelectorAll('.wave');
+        waves.forEach(wave => {
+          wave.style.transform = '';
+        });
+      });
+
+      // Create subtle background shimmer
+      const shimmer = document.createElement('div');
+      shimmer.style.position = 'fixed';
+      shimmer.style.top = '0';
+      shimmer.style.left = '0';
+      shimmer.style.width = '100%';
+      shimmer.style.height = '100%';
+      shimmer.style.background = 'linear-gradient(90deg, transparent, rgba(255,255,255,0.02), transparent)';
+      shimmer.style.animation = 'shimmer 8s infinite linear';
+      shimmer.style.pointerEvents = 'none';
+      shimmer.style.zIndex = '25';
+      document.body.appendChild(shimmer);
     });
   </script>
 </body>
