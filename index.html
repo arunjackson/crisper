@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>KRUSPER</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Inter font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      background: #000;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Animated background lights */
+    .lights-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+      opacity: 0.5;
+    }
+
+    .light {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      animation: float 15s infinite ease-in-out;
+    }
+
+    .light-1 {
+      width: 300px;
+      height: 300px;
+      background: rgba(0, 150, 255, 0.15);
+      top: 10%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .light-2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(255, 50, 150, 0.1);
+      bottom: 10%;
+      right: 10%;
+      animation-delay: -5s;
+    }
+
+    .light-3 {
+      width: 250px;
+      height: 250px;
+      background: rgba(100, 255, 200, 0.1);
+      top: 50%;
+      left: 70%;
+      animation-delay: -10s;
+    }
+
+    /* Main logo container */
+    .logo-container {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Shiny logo text */
+    .logo {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      position: relative;
+      background: linear-gradient(90deg, #fff, #aaa, #fff, #aaa, #fff);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shine 6s infinite linear;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    }
+
+    /* Subtle glow effect around logo */
+    .logo-glow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      border-radius: 20px;
+      z-index: -1;
+      animation: pulse 8s infinite alternate;
+    }
+
+    /* Shiny overlay that moves across the logo */
+    .logo-shine-overlay {
+      position: absolute;
+      top: -10px;
+      left: -100%;
+      width: 200%;
+      height: calc(100% + 20px);
+      background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.1), 
+        rgba(255, 255, 255, 0.2), 
+        rgba(255, 255, 255, 0.1), 
+        transparent);
+      transform: skewX(-15deg);
+      z-index: 1;
+      animation: slideShine 8s infinite ease-in-out;
+      animation-delay: 2s;
+    }
+
+    /* Footer email with shine effect */
+    footer {
+      position: fixed;
+      bottom: 18px;
+      width: 100%;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.6);
+      z-index: 2;
+    }
+
+    .email-link {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      position: relative;
+      padding: 0 5px;
+      transition: color 0.3s ease;
+    }
+
+    .email-link:hover {
+      color: #fff;
+    }
+
+    .email-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #fff, transparent);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .email-link:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* Decorative particles */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 50%;
+      animation: floatParticle 20s infinite linear;
+    }
+
+    /* Animations */
+    @keyframes shine {
+      0% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 300% 50%;
+      }
+    }
+
+    @keyframes slideShine {
+      0%, 20% {
+        left: -100%;
+      }
+      50% {
+        left: 0%;
+      }
+      80%, 100% {
+        left: 100%;
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+      }
+      33% {
+        transform: translate(30px, -30px) scale(1.1);
+      }
+      66% {
+        transform: translate(-20px, 20px) scale(0.9);
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        opacity: 0.3;
+        transform: scale(0.95);
+      }
+      100% {
+        opacity: 0.7;
+        transform: scale(1.05);
+      }
+    }
+
+    @keyframes floatParticle {
+      0% {
+        transform: translateY(100vh) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.1;
+      }
+      90% {
+        opacity: 0.1;
+      }
+      100% {
+        transform: translateY(-100px) translateX(100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .logo {
+        letter-spacing: 0.2em;
+      }
+      
+      .light {
+        filter: blur(40px);
+      }
+      
+      .light-1, .light-2, .light-3 {
+        width: 200px;
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Animated background lights -->
+  <div class="lights-container">
+    <div class="light light-1"></div>
+    <div class="light light-2"></div>
+    <div class="light light-3"></div>
+  </div>
+
+  <!-- Floating particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Main logo -->
+  <div class="logo-container">
+    <div class="logo-glow"></div>
+    <div class="logo-shine-overlay"></div>
+    <div class="logo">KRUSPER</div>
+  </div>
+
+  <footer>
+    <a href="mailto:arunjackson293@gmail.com" class="email-link">@arunjackson293@gmail.com</a>
+  </footer>
+
+  <script>
+    // Generate floating particles
+    document.addEventListener('DOMContentLoaded', function() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 30;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random size between 1px and 4px
+        const size = Math.random() * 3 + 1;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        // Random position
+        particle.style.left = `${Math.random() * 100}vw`;
+        
+        // Random animation delay and duration
+        const delay = Math.random() * 20;
+        const duration = 15 + Math.random() * 15;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+        
+        particlesContainer.appendChild(particle);
+      }
+      
+      // Add interactive mouse effect for extra shine
+      document.addEventListener('mousemove', function(e) {
+        const shineOverlay = document.querySelector('.logo-shine-overlay');
+        const x = e.clientX / window.innerWidth;
+        const y = e.clientY / window.innerHeight;
+        
+        // Subtly adjust shine based on mouse position
+        shineOverlay.style.opacity = 0.7 + (y * 0.3);
+      });
+      
+      // Add occasional random sparkle effect
+      setInterval(() => {
+        const logo = document.querySelector('.logo');
+        logo.style.textShadow = `0 0 20px rgba(255, 255, 255, ${0.2 + Math.random() * 0.3})`;
+        
+        setTimeout(() => {
+          logo.style.textShadow = '0 0 15px rgba(255, 255, 255, 0.1)';
+        }, 300);
+      }, 3000);
+    });
+  </script>
+</body>
+</html>
