@@ -96,45 +96,42 @@
       overflow: hidden;
     }
 
-    /* Water surface covering everything */
-    .water-surface {
+    /* Swirling waves container */
+    .waves-container {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(to bottom, 
-        rgba(20, 30, 80, 0.3) 0%,
-        rgba(40, 60, 150, 0.5) 50%,
-        rgba(20, 40, 100, 0.8) 100%);
       z-index: 1;
       overflow: hidden;
       pointer-events: none;
     }
 
-    /* Water waves */
-    .wave {
+    /* Base water layer */
+    .water-base {
       position: absolute;
-      bottom: 0;
+      top: 0;
       left: 0;
-      width: 200%;
+      width: 100%;
       height: 100%;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 40%;
-      animation: waveMove 15s infinite linear;
-      opacity: 0.3;
+      background: linear-gradient(to bottom, 
+        rgba(20, 30, 80, 0.4) 0%,
+        rgba(40, 60, 150, 0.6) 50%,
+        rgba(20, 40, 100, 0.8) 100%);
     }
 
-    .wave:nth-child(2) {
-      animation-duration: 20s;
-      opacity: 0.2;
-      bottom: 10%;
-    }
-
-    .wave:nth-child(3) {
-      animation-duration: 25s;
-      opacity: 0.15;
-      bottom: 20%;
+    /* Swirling wave element */
+    .swirling-wave {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+      opacity: 0;
+      transform-origin: center;
+      transition: all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: none;
+      filter: blur(10px);
+      mix-blend-mode: screen;
     }
 
     /* Large fluid glass overlay */
@@ -173,16 +170,6 @@
       );
       animation: fluidFlow 8s infinite linear;
       mix-blend-mode: screen;
-    }
-
-    /* Water droplets on glass */
-    .droplet {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      animation: dropletFall 6s infinite linear;
-      z-index: 3;
-      pointer-events: none;
     }
 
     /* Logo styling */
@@ -303,14 +290,13 @@
       margin-bottom: 80px;
     }
 
-    /* Service item - closed state */
+    /* Service item */
     .service-item {
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(15px);
       border-radius: 20px;
       border: 1px solid rgba(255, 255, 255, 0.1);
       padding: 30px;
-      cursor: pointer;
       transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.1);
       position: relative;
       overflow: hidden;
@@ -318,6 +304,8 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      cursor: pointer;
+      z-index: 10;
     }
 
     .service-item::before {
@@ -327,15 +315,18 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(45deg, transparent 30%, rgba(100, 150, 255, 0.05) 50%, transparent 70%);
+      background: linear-gradient(45deg, transparent 30%, rgba(100, 150, 255, 0.1) 50%, transparent 70%);
       opacity: 0;
       transition: opacity 0.5s ease;
+      z-index: -1;
     }
 
     .service-item:hover {
       transform: translateY(-10px);
-      border-color: rgba(255, 255, 255, 0.2);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
     }
 
     .service-item:hover::before {
@@ -348,6 +339,12 @@
       margin-bottom: 20px;
       color: #4facfe;
       text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .service-item:hover .service-icon {
+      transform: scale(1.2);
+      color: #6bc1ff;
     }
 
     .service-title {
@@ -357,6 +354,11 @@
       margin-bottom: 15px;
       text-align: center;
       color: #fff;
+      transition: all 0.3s ease;
+    }
+
+    .service-item:hover .service-title {
+      text-shadow: 0 0 10px rgba(107, 193, 255, 0.5);
     }
 
     .service-description {
@@ -366,137 +368,6 @@
       color: rgba(255, 255, 255, 0.7);
       text-align: center;
       line-height: 1.6;
-    }
-
-    /* Service item - expanded state (like peacock feathers) */
-    .service-item.expanded {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90vw;
-      height: 90vh;
-      z-index: 2000;
-      border-radius: 30px;
-      padding: 60px;
-      cursor: default;
-      overflow-y: auto;
-      backdrop-filter: blur(30px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 
-        0 40px 80px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      animation: featherExpand 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    }
-
-    .expanded-content {
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeInUp 0.5s 0.3s forwards;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .expanded-icon {
-      font-size: 4rem;
-      margin-bottom: 30px;
-      color: #4facfe;
-      text-align: center;
-    }
-
-    .expanded-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 3rem;
-      font-weight: 600;
-      margin-bottom: 30px;
-      text-align: center;
-      color: #fff;
-      letter-spacing: 0.1rem;
-    }
-
-    .expanded-description {
-      font-family: 'Inter', sans-serif;
-      font-size: 1.2rem;
-      font-weight: 300;
-      color: rgba(255, 255, 255, 0.9);
-      line-height: 1.8;
-      margin-bottom: 40px;
-      text-align: center;
-    }
-
-    .expanded-details {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      margin-top: 50px;
-    }
-
-    .detail-item {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 25px;
-      border-radius: 15px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .detail-title {
-      font-family: 'Inter', sans-serif;
-      font-size: 1.2rem;
-      font-weight: 600;
-      margin-bottom: 15px;
-      color: #4facfe;
-    }
-
-    .detail-text {
-      font-family: 'Inter', sans-serif;
-      font-size: 1rem;
-      font-weight: 300;
-      color: rgba(255, 255, 255, 0.7);
-      line-height: 1.6;
-    }
-
-    .close-expanded {
-      position: absolute;
-      top: 30px;
-      right: 30px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.2rem;
-      color: rgba(255, 255, 255, 0.8);
-      transition: all 0.3s ease;
-      z-index: 2001;
-    }
-
-    .close-expanded:hover {
-      background: rgba(255, 255, 255, 0.2);
-      color: #fff;
-      transform: rotate(90deg);
-    }
-
-    /* Overlay for expanded items */
-    .expanded-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(5px);
-      z-index: 1999;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.5s ease;
-    }
-
-    .expanded-overlay.active {
-      opacity: 1;
-      pointer-events: all;
     }
 
     /* Footer */
@@ -545,56 +416,17 @@
       margin-top: 20px;
     }
 
-    /* Water ripples */
-    .water-ripple {
-      position: absolute;
-      border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      animation: rippleExpand 3s infinite ease-out;
-      pointer-events: none;
-      z-index: 4;
-    }
-
-    /* Floating elements */
-    .floating-element {
+    /* Water droplets */
+    .droplet {
       position: absolute;
       background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(5px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 20px;
-      animation: floatOnWater 8s infinite ease-in-out;
+      border-radius: 50%;
+      animation: dropletFall 6s infinite linear;
       z-index: 3;
       pointer-events: none;
     }
 
-    /* Reflection effect */
-    .water-reflection {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        to bottom,
-        transparent 0%,
-        rgba(255, 255, 255, 0.1) 50%,
-        transparent 100%
-      );
-      mask-image: linear-gradient(to bottom, transparent, black 50%);
-      -webkit-mask-image: linear-gradient(to bottom, transparent, black 50%);
-      z-index: 2;
-      opacity: 0.3;
-      pointer-events: none;
-    }
-
     /* Animations */
-    @keyframes waveMove {
-      0% {
-        transform: translateX(0) rotate(0deg);
-      }
-      100% {
-        transform: translateX(-50%) rotate(360deg);
-      }
-    }
-
     @keyframes fluidFlow {
       0% {
         transform: translateX(-50%) translateY(-50%) rotate(0deg);
@@ -621,28 +453,6 @@
       }
     }
 
-    @keyframes floatOnWater {
-      0%, 100% {
-        transform: translateY(0) rotate(0deg);
-      }
-      50% {
-        transform: translateY(-20px) rotate(2deg);
-      }
-    }
-
-    @keyframes rippleExpand {
-      0% {
-        width: 10px;
-        height: 10px;
-        opacity: 0.8;
-      }
-      100% {
-        width: 300px;
-        height: 300px;
-        opacity: 0;
-      }
-    }
-
     @keyframes scrollBounce {
       0%, 100% {
         transform: translateX(-50%) translateY(0);
@@ -652,27 +462,14 @@
       }
     }
 
-    @keyframes featherExpand {
+    @keyframes wavePulse {
       0% {
-        width: 300px;
-        height: 200px;
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.5);
+        transform: scale(0.1);
+        opacity: 0.8;
       }
       100% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-      }
-    }
-
-    @keyframes fadeInUp {
-      0% {
+        transform: scale(2);
         opacity: 0;
-        transform: translateY(30px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
       }
     }
 
@@ -680,12 +477,6 @@
     @media (max-width: 1024px) {
       .services-grid {
         grid-template-columns: repeat(2, 1fr);
-      }
-      
-      .service-item.expanded {
-        width: 95vw;
-        height: 95vh;
-        padding: 40px;
       }
     }
 
@@ -719,19 +510,6 @@
       .services-grid {
         grid-template-columns: 1fr;
       }
-      
-      .service-item.expanded {
-        padding: 30px 20px;
-        border-radius: 20px;
-      }
-      
-      .expanded-title {
-        font-size: 2.2rem;
-      }
-      
-      .expanded-icon {
-        font-size: 3rem;
-      }
     }
 
     @media (max-width: 480px) {
@@ -756,12 +534,9 @@
 </head>
 
 <body>
-  <!-- Water surface covering everything -->
-  <div class="water-surface" id="waterSurface">
-    <div class="wave"></div>
-    <div class="wave"></div>
-    <div class="wave"></div>
-    <div class="water-reflection"></div>
+  <!-- Swirling waves container -->
+  <div class="waves-container" id="wavesContainer">
+    <div class="water-base"></div>
   </div>
 
   <!-- Large fluid glass overlay -->
@@ -840,9 +615,6 @@
     </div>
   </section>
 
-  <!-- Expanded Service Overlay -->
-  <div class="expanded-overlay" id="expandedOverlay"></div>
-
   <!-- Footer -->
   <footer class="footer" id="contact">
     <a href="mailto:arunjackson293@gmail.com" class="email-link">@arunjackson293@gmail.com</a>
@@ -851,162 +623,15 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const waterSurface = document.getElementById('waterSurface');
+      const wavesContainer = document.getElementById('wavesContainer');
       const fluidGlass = document.getElementById('fluidGlass');
-      const expandedOverlay = document.getElementById('expandedOverlay');
       const serviceItems = document.querySelectorAll('.service-item');
-      let expandedService = null;
-
-      // Service data for expanded view
-      const serviceData = {
-        1: {
-          title: "Creative Websites",
-          icon: "fas fa-paint-brush",
-          description: "We design and develop unique, visually stunning websites that not only captivate your audience but also perfectly reflect your brand identity. Our creative approach ensures your online presence stands out in today's crowded digital landscape.",
-          details: [
-            {
-              title: "Custom Design",
-              text: "Every website is uniquely crafted to match your brand personality and business goals."
-            },
-            {
-              title: "User Experience Focus",
-              text: "Intuitive navigation and engaging interfaces that keep visitors exploring."
-            },
-            {
-              title: "Visual Storytelling",
-              text: "We use visuals, animations, and interactions to tell your brand story effectively."
-            },
-            {
-              title: "Brand Consistency",
-              text: "Ensuring your website aligns perfectly with your overall brand identity."
-            }
-          ]
-        },
-        2: {
-          title: "Mobile-first & Fast Loading",
-          icon: "fas fa-mobile-alt",
-          description: "In today's mobile-dominated world, we build websites that perform exceptionally on all devices. Our focus on speed optimization ensures your visitors never wait, reducing bounce rates and improving engagement.",
-          details: [
-            {
-              title: "Responsive Design",
-              text: "Flawless experience across smartphones, tablets, and desktop devices."
-            },
-            {
-              title: "Performance Optimization",
-              text: "Advanced techniques to ensure lightning-fast load times and smooth interactions."
-            },
-            {
-              title: "Core Web Vitals",
-              text: "Optimized for Google's performance metrics to improve SEO rankings."
-            },
-            {
-              title: "Progressive Web Apps",
-              text: "Transform your website into an app-like experience for mobile users."
-            }
-          ]
-        },
-        3: {
-          title: "Take Appointments Automatically",
-          icon: "fas fa-calendar-check",
-          description: "Streamline your scheduling process with intelligent automated systems that work around the clock. Reduce no-shows, eliminate double bookings, and save valuable administrative time.",
-          details: [
-            {
-              title: "24/7 Scheduling",
-              text: "Clients can book appointments anytime, from anywhere in the world."
-            },
-            {
-              title: "Calendar Integration",
-              text: "Syncs with popular calendar apps to prevent scheduling conflicts."
-            },
-            {
-              title: "Automated Reminders",
-              text: "Reduce no-shows with email and SMS reminders sent before appointments."
-            },
-            {
-              title: "Custom Booking Forms",
-              text: "Collect necessary information during the booking process."
-            }
-          ]
-        },
-        4: {
-          title: "WhatsApp & Call Integrations",
-          icon: "fab fa-whatsapp",
-          description: "Connect with your customers through their preferred communication channels. Our seamless integrations make it easy for potential clients to reach you instantly, improving conversion rates and customer satisfaction.",
-          details: [
-            {
-              title: "One-click Communication",
-              text: "Visitors can contact you directly via WhatsApp or phone with a single click."
-            },
-            {
-              title: "Automated Responses",
-              text: "Set up automated replies for after-hours inquiries or common questions."
-            },
-            {
-              title: "Lead Qualification",
-              text: "Capture essential information before connecting customers with your team."
-            },
-            {
-              title: "Analytics & Tracking",
-              text: "Monitor which channels generate the most quality leads and conversions."
-            }
-          ]
-        },
-        5: {
-          title: "Lead Capture & Follow-ups",
-          icon: "fas fa-bullseye",
-          description: "Never miss a potential customer with our sophisticated lead capture systems. We implement automated follow-up sequences that nurture prospects through the sales funnel, converting more visitors into paying customers.",
-          details: [
-            {
-              title: "Smart Forms",
-              text: "Interactive forms that capture leads without disrupting user experience."
-            },
-            {
-              title: "Automated Nurturing",
-              text: "Personalized email sequences that build relationships with potential customers."
-            },
-            {
-              title: "CRM Integration",
-              text: "Seamlessly connect captured leads with your existing customer relationship tools."
-            },
-            {
-              title: "Lead Scoring",
-              text: "Identify hot leads ready for immediate follow-up based on engagement."
-            }
-          ]
-        },
-        6: {
-          title: "Increase Customers and Leads",
-          icon: "fas fa-chart-line",
-          description: "Our data-driven approach focuses on growing your customer base and generating consistent, high-quality leads. We combine creative design with strategic marketing to deliver measurable business growth.",
-          details: [
-            {
-              title: "Conversion Optimization",
-              text: "Strategically placed calls-to-action and persuasive design to increase conversions."
-            },
-            {
-              title: "SEO Strategy",
-              text: "Optimize your online presence to attract organic traffic from search engines."
-            },
-            {
-              title: "Analytics & Insights",
-              text: "Data-driven decisions based on user behavior and performance metrics."
-            },
-            {
-              title: "Growth Strategy",
-              text: "Continuous improvement based on performance data and market trends."
-            }
-          ]
-        }
-      };
-
-      // Create floating elements
-      createFloatingElements();
       
-      // Create water droplets
+      // Create initial droplets
       createDroplets();
       
-      // Create water ripples
-      setupRipples();
+      // Setup swirling waves on mouse move
+      setupSwirlingWaves();
       
       // Setup service item interactions
       setupServiceItems();
@@ -1014,34 +639,8 @@
       // Setup smooth scroll for navigation links
       setupSmoothScroll();
       
-      // Setup interactive water effects
-      setupWaterEffects();
-
-      function createFloatingElements() {
-        const floatingElements = [
-          { width: 120, height: 40, top: '20%', left: '10%', delay: 0 },
-          { width: 80, height: 80, top: '70%', left: '15%', delay: 1 },
-          { width: 60, height: 60, top: '30%', left: '80%', delay: 2 },
-          { width: 100, height: 50, top: '60%', left: '75%', delay: 3 },
-          { width: 70, height: 70, top: '40%', left: '50%', delay: 4 },
-        ];
-
-        floatingElements.forEach(element => {
-          const el = document.createElement('div');
-          el.classList.add('floating-element');
-          el.style.width = `${element.width}px`;
-          el.style.height = `${element.height}px`;
-          el.style.top = element.top;
-          el.style.left = element.left;
-          el.style.animationDelay = `${element.delay}s`;
-          el.style.animationDuration = `${8 + Math.random() * 4}s`;
-          el.style.background = `radial-gradient(circle at 30% 30%, 
-            rgba(${100 + Math.random() * 155}, ${100 + Math.random() * 155}, 255, 0.15),
-            rgba(${50 + Math.random() * 100}, ${50 + Math.random() * 100}, 200, 0.05))`;
-          
-          document.body.appendChild(el);
-        });
-      }
+      // Setup interactive glass effects
+      setupGlassEffects();
 
       function createDroplets() {
         for (let i = 0; i < 30; i++) {
@@ -1067,34 +666,131 @@
         }, 6000);
       }
 
-      function setupRipples() {
-        // Automatic ripple generation
-        setInterval(() => {
-          createRipple(
-            Math.random() * window.innerWidth,
-            window.innerHeight * 0.3 + Math.random() * window.innerHeight * 0.7
-          );
-        }, 800);
-
-        // Interactive ripples on mouse movement (only in lower part)
+      function setupSwirlingWaves() {
+        let mouseX = 0;
+        let mouseY = 0;
+        let lastWaveTime = 0;
+        const waveCooldown = 100; // ms between waves
+        
+        // Track mouse position
         document.addEventListener('mousemove', (e) => {
-          if (e.clientY > window.innerHeight / 3) {
-            createRipple(e.clientX, e.clientY);
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+          
+          // Create swirling wave on hover over specific areas
+          const now = Date.now();
+          if (now - lastWaveTime > waveCooldown) {
+            lastWaveTime = now;
+            createSwirlingWave(mouseX, mouseY);
           }
         });
+        
+        // Create swirling waves when hovering over service items
+        serviceItems.forEach(item => {
+          item.addEventListener('mouseenter', function(e) {
+            const rect = this.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            // Create multiple swirling waves from the center
+            for (let i = 0; i < 3; i++) {
+              setTimeout(() => {
+                createSwirlingWave(centerX, centerY);
+              }, i * 150);
+            }
+          });
+        });
+        
+        // Create automatic background swirling waves
+        setInterval(() => {
+          const randomX = Math.random() * window.innerWidth;
+          const randomY = Math.random() * window.innerHeight;
+          createSwirlingWave(randomX, randomY, 0.3); // Lower opacity for auto waves
+        }, 2000);
       }
 
-      function createRipple(x, y) {
-        const ripple = document.createElement('div');
-        ripple.classList.add('water-ripple');
-        ripple.style.left = `${x}px`;
-        ripple.style.top = `${y}px`;
-        ripple.style.animationDuration = `${Math.random() * 2 + 2}s`;
-        waterSurface.appendChild(ripple);
+      function createSwirlingWave(x, y, baseOpacity = 0.6) {
+        // Create the main wave
+        const wave = document.createElement('div');
+        wave.classList.add('swirling-wave');
         
+        // Randomize wave properties
+        const size = Math.random() * 200 + 100;
+        const colorValue = Math.floor(Math.random() * 155) + 100;
+        const duration = Math.random() * 2 + 2;
+        
+        // Set wave properties
+        wave.style.width = `${size}px`;
+        wave.style.height = `${size}px`;
+        wave.style.left = `${x - size/2}px`;
+        wave.style.top = `${y - size/2}px`;
+        wave.style.opacity = baseOpacity;
+        wave.style.background = `radial-gradient(circle, 
+          rgba(${colorValue}, ${colorValue + 50}, 255, ${baseOpacity * 0.8}) 0%, 
+          rgba(${colorValue - 50}, ${colorValue}, 255, 0) 70%)`;
+        
+        wavesContainer.appendChild(wave);
+        
+        // Animate the wave
+        requestAnimationFrame(() => {
+          wave.style.opacity = baseOpacity;
+          wave.style.transform = 'scale(0.1)';
+          
+          setTimeout(() => {
+            wave.style.transform = 'scale(2)';
+            wave.style.opacity = '0';
+            wave.style.filter = 'blur(20px)';
+          }, 10);
+        });
+        
+        // Create smaller secondary waves
+        for (let i = 0; i < 3; i++) {
+          setTimeout(() => {
+            const secondaryWave = document.createElement('div');
+            secondaryWave.classList.add('swirling-wave');
+            
+            const secondarySize = size * (0.3 + Math.random() * 0.4);
+            const offsetX = (Math.random() - 0.5) * 100;
+            const offsetY = (Math.random() - 0.5) * 100;
+            
+            secondaryWave.style.width = `${secondarySize}px`;
+            secondaryWave.style.height = `${secondarySize}px`;
+            secondaryWave.style.left = `${x - secondarySize/2 + offsetX}px`;
+            secondaryWave.style.top = `${y - secondarySize/2 + offsetY}px`;
+            secondaryWave.style.opacity = baseOpacity * 0.7;
+            secondaryWave.style.background = `radial-gradient(circle, 
+              rgba(${colorValue + 30}, ${colorValue + 80}, 255, ${baseOpacity * 0.6}) 0%, 
+              rgba(${colorValue - 30}, ${colorValue + 30}, 255, 0) 70%)`;
+            secondaryWave.style.transitionDuration = `${duration * 0.8}s`;
+            
+            wavesContainer.appendChild(secondaryWave);
+            
+            requestAnimationFrame(() => {
+              secondaryWave.style.opacity = baseOpacity * 0.7;
+              secondaryWave.style.transform = 'scale(0.1)';
+              
+              setTimeout(() => {
+                secondaryWave.style.transform = 'scale(1.5)';
+                secondaryWave.style.opacity = '0';
+                secondaryWave.style.filter = 'blur(15px)';
+              }, 10);
+            });
+            
+            // Remove secondary wave
+            setTimeout(() => {
+              if (secondaryWave.parentNode) {
+                secondaryWave.remove();
+              }
+            }, duration * 800);
+          }, i * 200);
+        }
+        
+        // Remove wave after animation completes
         setTimeout(() => {
-          ripple.remove();
-        }, 3000);
+          if (wave.parentNode) {
+            wave.remove();
+          }
+        }, duration * 1000);
       }
 
       function setupServiceItems() {
@@ -1115,69 +811,7 @@
           item.style.opacity = 0;
           item.style.transform = 'translateY(30px)';
           item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-          
-          // Click to expand
-          item.addEventListener('click', function() {
-            const serviceId = this.getAttribute('data-service');
-            expandService(serviceId);
-          });
         });
-      }
-
-      function expandService(serviceId) {
-        if (expandedService) return;
-        
-        expandedService = serviceId;
-        const service = serviceData[serviceId];
-        
-        // Create expanded service element
-        const expandedEl = document.createElement('div');
-        expandedEl.className = 'service-item expanded';
-        expandedEl.innerHTML = `
-          <div class="close-expanded"><i class="fas fa-times"></i></div>
-          <div class="expanded-content">
-            <div class="expanded-icon"><i class="${service.icon}"></i></div>
-            <h2 class="expanded-title">${service.title}</h2>
-            <p class="expanded-description">${service.description}</p>
-            <div class="expanded-details">
-              ${service.details.map(detail => `
-                <div class="detail-item">
-                  <h3 class="detail-title">${detail.title}</h3>
-                  <p class="detail-text">${detail.text}</p>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `;
-        
-        document.body.appendChild(expandedEl);
-        expandedOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        
-        // Close functionality
-        const closeBtn = expandedEl.querySelector('.close-expanded');
-        closeBtn.addEventListener('click', closeExpandedService);
-        
-        expandedOverlay.addEventListener('click', closeExpandedService);
-        
-        // ESC key to close
-        document.addEventListener('keydown', function(e) {
-          if (e.key === 'Escape') closeExpandedService();
-        });
-      }
-
-      function closeExpandedService() {
-        const expandedEl = document.querySelector('.service-item.expanded');
-        if (!expandedEl) return;
-        
-        expandedEl.style.animation = 'featherExpand 0.4s reverse forwards';
-        
-        setTimeout(() => {
-          expandedEl.remove();
-          expandedOverlay.classList.remove('active');
-          document.body.style.overflow = 'auto';
-          expandedService = null;
-        }, 400);
       }
 
       function setupSmoothScroll() {
@@ -1199,30 +833,41 @@
         });
       }
 
-      function setupWaterEffects() {
-        // Interactive water distortion effect
+      function setupGlassEffects() {
+        // Interactive glass distortion effect
         document.addEventListener('mousemove', (e) => {
           const x = e.clientX / window.innerWidth;
           const y = e.clientY / window.innerHeight;
           
-          // Apply distortion to glass based on mouse position
-          fluidGlass.style.transform = `translate(-50%, -50%) perspective(1000px) rotateY(${(x - 0.5) * 3}deg) rotateX(${(0.5 - y) * 3}deg)`;
+          // Apply subtle distortion to glass based on mouse position
+          fluidGlass.style.transform = `translate(-50%, -50%) perspective(1000px) 
+            rotateY(${(x - 0.5) * 2}deg) 
+            rotateX(${(0.5 - y) * 2}deg)
+            translateZ(${Math.sin(x * Math.PI * 2) * 5}px)`;
           
-          // Water wave distortion
-          const waves = document.querySelectorAll('.wave');
-          waves.forEach((wave, index) => {
-            const intensity = (3 - index) * 0.5;
-            wave.style.transform = `translateX(${(x - 0.5) * intensity * -5}%) rotate(${(x - 0.5) * intensity * 5}deg)`;
-          });
+          // Create additional swirling waves when moving quickly
+          const speed = Math.sqrt(e.movementX ** 2 + e.movementY ** 2);
+          if (speed > 10) {
+            createSwirlingWave(e.clientX, e.clientY, 0.4);
+          }
         });
 
         document.addEventListener('mouseleave', () => {
           fluidGlass.style.transform = 'translate(-50%, -50%) perspective(1000px) rotateY(0deg) rotateX(0deg)';
-          const waves = document.querySelectorAll('.wave');
-          waves.forEach(wave => {
-            wave.style.transform = '';
-          });
         });
+        
+        // Create initial swirling wave pattern
+        setTimeout(() => {
+          for (let i = 0; i < 5; i++) {
+            setTimeout(() => {
+              createSwirlingWave(
+                Math.random() * window.innerWidth,
+                Math.random() * window.innerHeight,
+                0.4
+              );
+            }, i * 300);
+          }
+        }, 1000);
       }
     });
   </script>
