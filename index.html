@@ -38,17 +38,17 @@
         }
 
         body {
-    font-family: 'Inter', sans-serif;
-    background: #000000; /* Pure black */
-    color: #ffffff; /* Pure white */
-    overflow-x: hidden;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
+            font-family: 'Inter', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+        }
 
-/* Remove or comment out the body::before rule entirely */
-
+        /* Add subtle gradient effects without white background */
         body::before {
             content: '';
             position: fixed;
@@ -57,9 +57,8 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 30%, rgba(120, 119, 198, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(255, 119, 198, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.1) 0%, transparent 40%);
+                radial-gradient(circle at 20% 30%, rgba(102, 126, 234, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(118, 75, 162, 0.03) 0%, transparent 50%);
             z-index: -1;
             pointer-events: none;
         }
@@ -205,18 +204,21 @@
             60% { transform: translateY(-5px); }
         }
 
-        /* Navigation */
+        /* Navigation - FIXED FOR MOBILE */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(20px);
             padding: 1rem 5%;
             z-index: 1000;
             border-bottom: 1px solid var(--border);
             transform: translateY(-100%);
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 70px;
+            display: flex;
+            align-items: center;
         }
 
         nav.visible {
@@ -229,6 +231,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            width: 100%;
         }
 
         .nav-logo {
@@ -273,10 +276,10 @@
             overflow: hidden;
         }
 
-        /* Step Container */
+        /* Step Container - ADDED PADDING FOR MOBILE HEADER */
         .step-container {
             min-height: 100vh;
-            padding: 120px 5% 80px;
+            padding: 140px 5% 80px; /* Increased top padding for mobile */
             display: none;
             opacity: 0;
             transform: translateY(20px);
@@ -330,7 +333,7 @@
 
         .hero-step .hero-subtitle {
             font-size: 1.3rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: #ffffff !important; /* Fixed: Made fully opaque */
             margin-bottom: 4rem;
             font-weight: 400;
             max-width: 600px;
@@ -400,7 +403,7 @@
 
         .stat-label {
             font-size: 0.9rem;
-            color: var(--text-gray);
+            color: #cccccc !important; /* Fixed: Made brighter */
             letter-spacing: 0.2rem;
             text-transform: uppercase;
             font-weight: 600;
@@ -461,7 +464,7 @@
         .section-subtitle {
             text-align: center;
             font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: #ffffff !important; /* Fixed: Made fully opaque */
             margin-bottom: 5rem;
             font-weight: 400;
             max-width: 600px;
@@ -500,13 +503,13 @@
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 1.2rem;
-            color: var(--white);
+            color: #ffffff !important; /* Fixed: Made fully opaque */
             position: relative;
             z-index: 2;
         }
 
         .problem-item p {
-            color: rgba(255, 255, 255, 0.7);
+            color: #ffffff !important; /* Fixed: Made fully opaque */
             line-height: 1.8;
             font-size: 1rem;
             position: relative;
@@ -567,11 +570,11 @@
             font-size: 1.8rem;
             font-weight: 700;
             margin-bottom: 1.5rem;
-            color: var(--white);
+            color: #ffffff !important; /* Fixed: Made fully opaque */
         }
 
         .service-card p {
-            color: rgba(255, 255, 255, 0.7);
+            color: #ffffff !important; /* Fixed: Made fully opaque */
             margin-bottom: 2.5rem;
             line-height: 1.8;
             font-size: 1rem;
@@ -586,7 +589,7 @@
 
         .service-features li {
             margin-bottom: 1rem;
-            color: rgba(255, 255, 255, 0.7);
+            color: #ffffff !important; /* Fixed: Made fully opaque */
             font-size: 0.95rem;
             padding-left: 1.8rem;
             position: relative;
@@ -594,7 +597,7 @@
         }
 
         .service-features li:hover {
-            color: #667eea;
+            color: #667eea !important;
         }
 
         .service-features li::before {
@@ -655,7 +658,7 @@
             font-size: 1.8rem;
             font-weight: 700;
             margin-bottom: 1.5rem;
-            color: var(--white);
+            color: #ffffff !important; /* Fixed: Made fully opaque */
         }
 
         .package-price {
@@ -671,7 +674,7 @@
 
         .package-duration {
             font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.6);
+            color: #cccccc !important; /* Fixed: Made brighter */
             margin-bottom: 2.5rem;
             text-transform: uppercase;
             letter-spacing: 0.1rem;
@@ -688,7 +691,7 @@
 
         .package-features li {
             margin-bottom: 1.2rem;
-            color: rgba(255, 255, 255, 0.7);
+            color: #ffffff !important; /* Fixed: Made fully opaque */
             font-size: 0.95rem;
             padding-left: 2rem;
             position: relative;
@@ -752,7 +755,7 @@
             font-size: 1.1rem;
             line-height: 1.8;
             margin-bottom: 2.5rem;
-            color: rgba(255, 255, 255, 0.9);
+            color: #ffffff !important; /* Fixed: Made fully opaque */
             font-style: italic;
             position: relative;
             z-index: 2;
@@ -782,12 +785,12 @@
             font-weight: 700;
             margin-bottom: 0.5rem;
             font-size: 1.1rem;
-            color: var(--white);
+            color: #ffffff !important; /* Fixed: Made fully opaque */
         }
 
         .testimonial-author p {
             font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.6);
+            color: #cccccc !important; /* Fixed: Made brighter */
             text-transform: uppercase;
             letter-spacing: 0.1rem;
             font-weight: 500;
@@ -842,7 +845,7 @@
 
         .booking-subtitle {
             text-align: center;
-            color: rgba(255, 255, 255, 0.8);
+            color: #ffffff !important; /* Fixed: Made fully opaque */
             margin-bottom: 3rem;
             font-size: 1.1rem;
             line-height: 1.8;
@@ -916,7 +919,7 @@
             font-size: 0.85rem;
             letter-spacing: 0.1rem;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.7);
+            color: #cccccc !important; /* Fixed: Made brighter */
         }
 
         .form-group input,
@@ -924,7 +927,7 @@
             padding: 1.2rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
             background: rgba(255, 255, 255, 0.03);
-            color: var(--white);
+            color: #ffffff !important; /* Fixed: Made fully opaque */
             font-family: 'Inter', sans-serif;
             font-size: 1rem;
             transition: all 0.3s ease;
@@ -1109,7 +1112,7 @@
             position: absolute;
             border-radius: 50%;
             background: var(--gradient);
-            opacity: 0.1;
+            opacity: 0.05; /* Reduced opacity */
             filter: blur(40px);
             z-index: 1;
         }
@@ -1130,7 +1133,7 @@
             animation: fadeInUp 0.8s ease forwards;
         }
 
-        /* Responsive */
+        /* Responsive - MOBILE FIXES */
         @media (max-width: 1024px) {
             .hero-step h1 {
                 font-size: 4rem;
@@ -1143,6 +1146,15 @@
             .nav-arrows,
             .step-indicator {
                 display: none;
+            }
+            
+            /* Adjust header height for tablet */
+            nav {
+                height: 65px;
+            }
+            
+            .step-container {
+                padding: 130px 5% 60px;
             }
         }
 
@@ -1178,8 +1190,9 @@
                 padding: 2.5rem;
             }
 
+            /* MOBILE HEADER FIX - Increased padding */
             .step-container {
-                padding: 100px 5% 60px;
+                padding: 120px 5% 60px; /* Extra top padding for mobile */
             }
 
             .problem-item,
@@ -1188,6 +1201,22 @@
             .testimonial-card {
                 padding: 2rem;
             }
+            
+            /* Adjust header for mobile */
+            nav {
+                height: 60px;
+                padding: 0.8rem 5%;
+            }
+            
+            .nav-logo {
+                font-size: 1.2rem;
+                letter-spacing: 0.2rem;
+            }
+            
+            .nav-btn {
+                padding: 0.6rem 1.5rem;
+                font-size: 0.7rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1195,14 +1224,20 @@
                 font-size: 2.5rem;
             }
             
+            /* Mobile header adjustments */
+            nav {
+                height: 55px;
+                padding: 0.7rem 4%;
+            }
+            
             .nav-container {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
+                flex-direction: row; /* Keep horizontal layout */
+                gap: 0.5rem;
             }
 
             .nav-logo {
-                font-size: 1.2rem;
+                font-size: 1rem;
+                letter-spacing: 0.15rem;
             }
 
             .hero-step h1 {
@@ -1222,6 +1257,11 @@
                 padding: 1.2rem 3rem;
                 font-size: 0.9rem;
             }
+            
+            /* Extra padding for smallest screens */
+            .step-container {
+                padding: 110px 4% 50px;
+            }
         }
 
         /* Loading animation */
@@ -1236,9 +1276,43 @@
             transition: width 0.3s ease;
         }
 
-        /* Ensure text is visible */
-        * {
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        /* WhatsApp Float - MOBILE FIX */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 56px;
+            height: 56px;
+            background: var(--white);
+            color: var(--black);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 998; /* Below header */
+            text-decoration: none;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border);
+        }
+
+        .whatsapp-float:hover {
+            background: var(--black);
+            color: var(--white);
+            transform: translateY(-4px) scale(1.1);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .whatsapp-float {
+                bottom: 5rem; /* Move up to avoid mobile browser UI */
+                right: 1.5rem;
+                width: 50px;
+                height: 50px;
+                font-size: 1.6rem;
+            }
         }
     </style>
 </head>
@@ -1539,7 +1613,7 @@
                     </div>
                     
                     <button type="submit" class="book-btn">
-                        <i class="fab fa-whatsapp"></i> Done 
+                        <i class="fab fa-whatsapp"></i> BOOK FREE DEMO ON WHATSAPP
                     </button>
 
                     <div class="urgency-note">
@@ -1778,7 +1852,7 @@
             
             // Add keyboard navigation
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' && document.getElementById('splash').style.display !== 'none') {
+                if (e.key === 'Enter' && !document.getElementById('splash').classList.contains('hidden')) {
                     startJourney();
                 } else if (e.key === 'ArrowRight' || e.key === ' ') {
                     goToNextStep();
@@ -1795,12 +1869,18 @@
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('animated');
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
                     }
                 });
             }, { threshold: 0.1 });
 
-            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+            document.querySelectorAll('.fade-in').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                observer.observe(el);
+            });
         }
 
         function initializeStepIndicator() {
@@ -1850,9 +1930,6 @@
             // Initialize step indicator
             initializeStepIndicator();
             updateNavigation();
-            
-            // Focus on first step
-            document.getElementById('step-home').focus();
         }
 
         function goToStep(step) {
@@ -1873,8 +1950,12 @@
                 
                 // Update all fade-in elements to trigger animations
                 targetStep.querySelectorAll('.fade-in').forEach(el => {
-                    el.classList.remove('animated');
-                    setTimeout(() => el.classList.add('animated'), 100);
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }, 100);
                 });
                 
                 // Update navigation
