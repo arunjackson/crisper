@@ -4,13 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Krusper — Designing websites that people remember.</title>
-<link rel="icon" href="favicon/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="favicon/favicon.ico" sizes="any">
-<link rel="icon" href="favicon/favicon-32x32.png" sizes="32x32" type="image/png">
-<link rel="icon" href="favicon/favicon-16x16.png" sizes="16x16" type="image/png">
-<link rel="apple-touch-icon" href="favicon/apple-touch-icon.png">
-<link rel="icon" href="favicon/android-chrome-192x192.png" sizes="192x192" type="image/png">
-<link rel="icon" href="favicon/android-chrome-512x512.png" sizes="512x512" type="image/png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E" type="image/svg+xml">
 <style>
   :root{
     --bg:#F7F7F5;
@@ -25,7 +19,7 @@
 
   *{margin:0;padding:0;box-sizing:border-box;}
 
-  html{background:var(--bg);}
+  html{background:var(--bg);scroll-behavior:smooth;}
   html.lenis{height:auto;}
   .lenis.lenis-smooth{scroll-behavior:auto;}
 
@@ -42,7 +36,6 @@
 
   ::selection{background:rgba(10,132,255,.15);}
 
-  /* noise */
   body::before{
     content:"";
     position:fixed;
@@ -53,7 +46,6 @@
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  /* cursor */
   .cursor{
     position:fixed;
     top:0;left:0;
@@ -72,7 +64,6 @@
 
   section{position:relative;padding:0 8vw;}
 
-  /* NAV */
   nav{
     position:fixed;
     top:0;left:0;right:0;
@@ -94,10 +85,9 @@
   }
   .logo{font-size:14px;font-weight:600;letter-spacing:3px;}
   .nav-links{display:flex;gap:36px;font-size:13px;color:var(--secondary);}
-  .nav-links a{transition:color .3s var(--ease);}
+  .nav-links a{transition:color .3s var(--ease);cursor:pointer;}
   .nav-links a:hover{color:var(--text);}
 
-  /* LOADER */
   #loader{
     position:fixed;inset:0;
     background:#fff;
@@ -117,7 +107,6 @@
   #loader.close span{letter-spacing:3px;}
   #loader.hide{opacity:0;pointer-events:none;}
 
-  /* HERO */
   .hero{
     min-height:100vh;
     min-height:100svh;
@@ -182,6 +171,7 @@
     display:inline-flex;
     align-items:center;
     transition:transform .7s var(--ease), box-shadow .7s var(--ease), background .4s var(--ease);
+    cursor:pointer;
   }
   .btn-primary{
     background:var(--accent);
@@ -236,7 +226,6 @@
   .laptop-hinge{background:#2C2C2A;height:8px;border-radius:0 0 16px 16px;}
   .laptop-base{height:16px;margin:0 30px;box-shadow:0 40px 50px rgba(0,0,0,.16);}
 
-  /* SECTION 2 */
   .statement{
     min-height:80vh;
     display:flex;flex-direction:column;
@@ -264,7 +253,6 @@
   }
   .reveal.in{opacity:1;transform:translateY(0);}
 
-  /* SECTION 3 */
   .services{padding:140px 8vw;}
   .services-head{text-align:center;margin-bottom:64px;}
   .services-head h3{font-size:clamp(26px,3.6vw,42px);font-weight:600;letter-spacing:-1px;}
@@ -292,7 +280,6 @@
   .card h4{font-size:22px;font-weight:600;margin:14px 0 16px;letter-spacing:-.5px;}
   .card p{font-size:14px;color:var(--secondary);line-height:1.7;}
 
-  /* SECTION 4 */
   .gallery{padding:160px 8vw;overflow:hidden;}
   .gallery-head{text-align:center;margin-bottom:100px;}
   .gallery-head h3{font-size:clamp(28px,4vw,48px);font-weight:600;letter-spacing:-1px;}
@@ -312,7 +299,6 @@
     overflow:hidden;
     will-change:transform;
   }
-  .mockup img{display:none;}
   .mockup .fill{width:100%;height:100%;background:#fff;display:flex;flex-direction:column;}
   .mockup .chrome{
     display:flex;align-items:center;gap:8px;
@@ -338,7 +324,6 @@
   .mockup.mobile{width:140px;height:300px;left:78%;z-index:3;}
   .mockup.tablet .content,.mockup.mobile .content{padding:14px;}
 
-  /* SECTION 5 pricing */
   .pricing{
     min-height:60vh;
     display:flex;flex-direction:column;
@@ -350,7 +335,6 @@
   .pricing .custom{font-size:15px;color:var(--secondary);opacity:0;transform:translateY(16px);}
   .pricing .custom b{color:var(--text);font-weight:500;}
 
-  /* CONTACT */
   .contact{
     min-height:100vh;
     display:flex;flex-direction:column;
@@ -433,7 +417,7 @@
     font-size:14px;
     font-weight:500;
     font-family:inherit;
-    cursor:none;
+    cursor:pointer;
     transition:transform .7s var(--ease), box-shadow .7s var(--ease), background .4s var(--ease);
   }
   .submit-btn:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.18), 0 0 0 6px rgba(10,132,255,.08);}
@@ -448,7 +432,6 @@
   }
   .success-msg.show{opacity:1;height:auto;}
 
-  /* FOOTER */
   footer{
     padding:60px 8vw;
     border-top:1px solid var(--border);
@@ -464,7 +447,7 @@
   }
   footer .f-logo{font-weight:600;letter-spacing:2px;color:var(--text);margin-bottom:6px;}
   footer .f-social{display:flex;gap:18px;}
-  footer .f-social a{transition:color .3s var(--ease);}
+  footer .f-social a{transition:color .3s var(--ease);cursor:pointer;}
   footer .f-social a:hover{color:var(--text);}
 
   @media(max-width:1100px){
@@ -542,8 +525,8 @@
 <nav id="nav">
   <div class="logo">KRUSPER</div>
   <div class="nav-links">
-    <a href="#gallery" data-hover>Work</a>
-    <a href="#contact" data-hover>Contact</a>
+    <a href="#gallery" data-hover data-nav>Work</a>
+    <a href="#contact" data-hover data-nav>Contact</a>
   </div>
 </nav>
 
@@ -554,8 +537,8 @@
       <h1 class="reveal">Launch a website<br>you're proud<br>to share.</h1>
       <p class="reveal">Modern websites for businesses that want to look trustworthy, premium and memorable.</p>
       <div class="hero-buttons reveal">
-        <a class="btn btn-primary" data-hover data-sound="tap">Start Your Project</a>
-        <a class="btn btn-ghost" data-hover data-sound="tap">View Work</a>
+        <a class="btn btn-primary" data-hover data-sound="tap" href="#contact" data-nav>Start Your Project</a>
+        <a class="btn btn-ghost" data-hover data-sound="tap" href="#gallery" data-nav>View Work</a>
       </div>
     </div>
     <div class="hero-mock reveal" id="heroMock">
@@ -790,6 +773,24 @@ function playTone(freq, duration, type='sine', vol=0.05){
 document.querySelectorAll('[data-sound="tap"]').forEach(el=>{
   el.addEventListener('mouseenter', ()=> playTone(720, 0.06, 'sine', 0.02));
   el.addEventListener('click', ()=> playTone(420, 0.09, 'sine', 0.04));
+});
+
+/* ---------- Smooth anchor scrolling (overrides Lenis) ---------- */
+document.querySelectorAll('[data-nav]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const targetId = this.getAttribute('href');
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      if (lenis) {
+        // Use Lenis if available
+        lenis.scrollTo(targetElement, { offset: -80 });
+      } else {
+        // Fallback to native scroll
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  });
 });
 
 /* ---------- Enquiry form -> WhatsApp ---------- */
