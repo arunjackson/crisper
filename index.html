@@ -1,4 +1,4 @@
-\<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -35,6 +35,14 @@
             box-sizing: border-box;
         }
 
+        /* ── FIX: restore scrolling ── */
+        html,
+        body {
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            height: auto !important;
+        }
+
         html {
             background: var(--bg);
             scroll-behavior: smooth;
@@ -51,7 +59,6 @@
             color: var(--text);
             font-family: "SF Pro Display", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
             cursor: none;
         }
 
@@ -136,6 +143,7 @@
             font-size: 14px;
             font-weight: 600;
             letter-spacing: 3px;
+            cursor: pointer;
         }
         .nav-links {
             display: flex;
@@ -1065,7 +1073,7 @@
 
     <!-- nav -->
     <nav id="nav">
-        <div class="logo">KRUSPER</div>
+        <div class="logo" id="logoReload">KRUSPER</div>
         <div class="nav-links">
             <a href="#gallery" data-hover data-nav>Work</a>
             <a href="#contact" data-hover data-nav>Contact</a>
@@ -1134,7 +1142,7 @@
         </div>
     </section>
 
-    <!-- video showcase – added with autoplay & modern design -->
+    <!-- video showcase – autoplay with modern design -->
     <section class="video-showcase" id="video">
         <div class="video-head">
             <div class="video-badge reveal">
@@ -1273,6 +1281,11 @@
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
         nav.classList.toggle('shrink', window.scrollY > 40);
+    });
+
+    /* ── logo reload ── */
+    document.getElementById('logoReload').addEventListener('click', function() {
+        window.location.reload();
     });
 
     /* ── hero mock parallax ── */
