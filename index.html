@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -444,6 +444,133 @@
             line-height: 1.7;
         }
 
+        /* ── video showcase ── */
+        .video-showcase {
+            padding: 80px 8vw 120px;
+        }
+        .video-showcase .video-head {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .video-showcase .video-head h3 {
+            font-size: clamp(26px, 3.6vw, 42px);
+            font-weight: 600;
+            letter-spacing: -1px;
+        }
+        .video-showcase .video-head p {
+            margin-top: 12px;
+            font-size: 15px;
+            color: var(--secondary);
+        }
+
+        /* ── modern video wrapper ── */
+        .video-wrapper {
+            position: relative;
+            max-width: 960px;
+            margin: 0 auto;
+            border-radius: 24px;
+            padding: 6px;
+            background: linear-gradient(135deg, rgba(10, 132, 255, .35), rgba(108, 92, 231, .35), rgba(10, 132, 255, .35));
+            background-size: 300% 300%;
+            animation: gradientBorder 6s ease-in-out infinite;
+            box-shadow: 0 24px 80px rgba(10, 132, 255, .12), 0 8px 24px rgba(0, 0, 0, .04);
+            transition: transform .6s var(--ease), box-shadow .6s var(--ease);
+            opacity: 0;
+            transform: translateY(30px) scale(.98);
+        }
+        .video-wrapper.reveal-in {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .video-wrapper:hover {
+            transform: translateY(-4px) scale(1.002);
+            box-shadow: 0 32px 100px rgba(10, 132, 255, .18), 0 8px 24px rgba(0, 0, 0, .04);
+        }
+
+        @keyframes gradientBorder {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .video-wrapper .video-inner {
+            position: relative;
+            border-radius: 19px;
+            overflow: hidden;
+            background: #0a0a0a;
+            aspect-ratio: 16/9;
+            width: 100%;
+        }
+
+        .video-wrapper .video-inner iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        /* subtle glow behind video */
+        .video-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border-radius: 40px;
+            background: radial-gradient(circle at 30% 40%, rgba(10, 132, 255, .06), transparent 70%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity .8s var(--ease);
+            filter: blur(30px);
+        }
+        .video-wrapper.reveal-in::before {
+            opacity: 1;
+        }
+
+        /* video badge / label */
+        .video-badge {
+            display: inline-block;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 6px 18px 6px 16px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--secondary);
+            letter-spacing: .5px;
+            margin-bottom: 16px;
+            transition: background .3s var(--ease);
+        }
+        .video-badge span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #4ADE80;
+            margin-right: 8px;
+            animation: pulseDot 2s ease-in-out infinite;
+        }
+        @keyframes pulseDot {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: .4;
+                transform: scale(.7);
+            }
+        }
+
         /* ── gallery ── */
         .gallery {
             padding: 160px 8vw;
@@ -694,6 +821,9 @@
             .form-wrapper {
                 max-width: 640px;
             }
+            .video-showcase {
+                padding: 60px 8vw 100px;
+            }
         }
 
         @media(max-width:900px) {
@@ -750,6 +880,16 @@
             }
             .form-wrapper iframe {
                 height: 4200px;
+            }
+            .video-showcase {
+                padding: 40px 6vw 80px;
+            }
+            .video-wrapper {
+                border-radius: 18px;
+                padding: 4px;
+            }
+            .video-wrapper .video-inner {
+                border-radius: 15px;
             }
         }
 
@@ -838,6 +978,28 @@
             footer {
                 padding: 44px 6vw;
             }
+            .video-showcase {
+                padding: 30px 6vw 60px;
+            }
+            .video-showcase .video-head {
+                margin-bottom: 28px;
+            }
+            .video-wrapper {
+                border-radius: 14px;
+                padding: 3px;
+            }
+            .video-wrapper .video-inner {
+                border-radius: 12px;
+            }
+            .video-badge {
+                font-size: 10px;
+                padding: 4px 14px 4px 12px;
+            }
+            .video-badge span {
+                width: 5px;
+                height: 5px;
+                margin-right: 6px;
+            }
         }
 
         @media(max-width:420px) {
@@ -875,6 +1037,13 @@
             }
             .form-wrapper iframe {
                 height: 5200px;
+            }
+            .video-wrapper {
+                border-radius: 12px;
+                padding: 2px;
+            }
+            .video-wrapper .video-inner {
+                border-radius: 10px;
             }
         }
 
@@ -965,231 +1134,263 @@
         </div>
     </section>
 
-    <!-- gallery -->
-    <section class="gallery" id="gallery">
-        <div class="gallery-head">
-            <h3 class="reveal">Looks great<br />everywhere.</h3>
+    <!-- video showcase – added with autoplay & modern design -->
+    <section class="video-showcase" id="video">
+        <div class="video-head">
+            <div class="video-badge reveal">
+                <span></span> Now Playing
+            </div>
+            <h3 class="reveal">Featured Film</h3>
+            <p class="reveal">Watch our story in motion — a glimpse into what we do.</p>
         </div>
-        <div class="gallery-stage">
-            <div class="mockup desktop" data-speed="0.15">
-                <div class="fill">
-                    <div class="chrome"><span></span><span></span><span></span><div class="url"></div></div>
-                    <div class="content">
-                        <div class="line w40"></div>
-                        <div class="line w70"></div>
-                        <div class="row2"><div class="sq"></div><div class="sq"></div><div class="sq"></div></div>
-                    </div>
+        <div class="video-wrapper" id="videoWrapper">
+            <div class="video-inner">
+                <iframe
+                src="https://www.youtube-nocookie.com/embed/tjmlNBT15iI?si=x9WriwUdBiJk0Hux&amp;start=15&amp;autoplay=1&amp;mute=1"
+                title="Krusper — featured video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+                loading="lazy">
+            </iframe>
+        </div>
+    </div>
+</section>
+
+<!-- gallery -->
+<section class="gallery" id="gallery">
+    <div class="gallery-head">
+        <h3 class="reveal">Looks great<br />everywhere.</h3>
+    </div>
+    <div class="gallery-stage">
+        <div class="mockup desktop" data-speed="0.15">
+            <div class="fill">
+                <div class="chrome"><span></span><span></span><span></span><div class="url"></div></div>
+                <div class="content">
+                    <div class="line w40"></div>
+                    <div class="line w70"></div>
+                    <div class="row2"><div class="sq"></div><div class="sq"></div><div class="sq"></div></div>
                 </div>
             </div>
-            <div class="mockup tablet" data-speed="0.3">
-                <div class="fill">
-                    <div class="chrome"><span></span><span></span><span></span></div>
-                    <div class="content">
-                        <div class="line w70"></div>
-                        <div class="line w40"></div>
-                        <div class="swatch"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="mockup mobile" data-speed="0.45">
-                <div class="fill">
-                    <div class="chrome"><span></span><span></span><span></span></div>
-                    <div class="content">
-                        <div class="line w70"></div>
-                        <div class="swatch"></div>
-                    </div>
+        </div>
+        <div class="mockup tablet" data-speed="0.3">
+            <div class="fill">
+                <div class="chrome"><span></span><span></span><span></span></div>
+                <div class="content">
+                    <div class="line w70"></div>
+                    <div class="line w40"></div>
+                    <div class="swatch"></div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- pricing -->
-    <section class="pricing">
-        <div class="label reveal">Website</div>
-        <div class="price reveal">Starting from ₹10,000</div>
-        <div class="custom reveal">Every project is custom. <b>Tell us about yours.</b></div>
-    </section>
-
-    <!-- contact – Google Form embed -->
-    <section class="contact" id="contact">
-        <h2 class="reveal">Let's build<br />something beautiful.</h2>
-        <div class="form-wrapper" id="formWrapper">
-            <iframe
-            src="https://docs.google.com/forms/d/e/1FAIpQLSeQh4ld-ZlGYVlLqCdV629h0DxuJ4wbBPt20XZ1fY3psRmKZQ/viewform?embedded=true"
-            title="Krusper enquiry form"
-            loading="lazy"
-            allow="clipboard-write"
-            >Loading…</iframe>
-        </div>
-    </section>
-
-    <!-- footer -->
-    <footer>
-        <div class="footer-inner">
-            <div>
-                <div class="f-logo">KRUSPER</div>
-                <p>Designing websites that people remember.</p>
-            </div>
-            <div class="f-social">
-                <a href="https://www.instagram.com/krusperdotcom/" target="_blank" rel="noopener noreferrer" data-hover>
-                    Instagram
-                </a>
-                <a href="https://krusper.in/privacy-policy" rel="noopener noreferrer" data-hover>
-                    Privacy Policy
-                </a>
-                <a href="mailto:arun@krusper.com" data-hover>
-                    Email
-                </a>
+        <div class="mockup mobile" data-speed="0.45">
+            <div class="fill">
+                <div class="chrome"><span></span><span></span><span></span></div>
+                <div class="content">
+                    <div class="line w70"></div>
+                    <div class="swatch"></div>
+                </div>
             </div>
         </div>
-    </footer>
+    </div>
+</section>
 
-    <!-- scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js">
-    </script>
-    <script>
-        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+<!-- pricing -->
+<section class="pricing">
+    <div class="label reveal">Website</div>
+    <div class="price reveal">Starting from ₹10,000</div>
+    <div class="custom reveal">Every project is custom. <b>Tell us about yours.</b></div>
+</section>
 
-        /* ── loader ── */
-        const loader = document.getElementById('loader');
-        requestAnimationFrame(() => loader.classList.add('show'));
-        setTimeout(() => loader.classList.add('close'), 500);
-        setTimeout(() => loader.classList.add('hide'), 1400);
+<!-- contact – Google Form embed -->
+<section class="contact" id="contact">
+    <h2 class="reveal">Let's build<br />something beautiful.</h2>
+    <div class="form-wrapper" id="formWrapper">
+        <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSeQh4ld-ZlGYVlLqCdV629h0DxuJ4wbBPt20XZ1fY3psRmKZQ/viewform?embedded=true"
+        title="Krusper enquiry form"
+        loading="lazy"
+        allow="clipboard-write"
+        >Loading…</iframe>
+    </div>
+</section>
 
-        /* ── Lenis smooth scroll ── */
-        let lenis;
-        if (!reducedMotion && window.Lenis) {
-            lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1 });
+<!-- footer -->
+<footer>
+    <div class="footer-inner">
+        <div>
+            <div class="f-logo">KRUSPER</div>
+            <p>Designing websites that people remember.</p>
+        </div>
+        <div class="f-social">
+            <a href="https://www.instagram.com/krusperdotcom/" target="_blank" rel="noopener noreferrer" data-hover>
+                Instagram
+            </a>
+            <a href="https://krusper.in/privacy-policy" rel="noopener noreferrer" data-hover>
+                Privacy Policy
+            </a>
+            <a href="mailto:arun@krusper.com" data-hover>
+                Email
+            </a>
+        </div>
+    </div>
+</footer>
 
-            function raf(time) { lenis.raf(time);
-                requestAnimationFrame(raf); }
-            requestAnimationFrame(raf);
-        }
+<!-- scripts -->
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js">
+</script>
+<script>
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        /* ── custom cursor ── */
-        const cursor = document.getElementById('cursor');
-        window.addEventListener('mousemove', e => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
+    /* ── loader ── */
+    const loader = document.getElementById('loader');
+    requestAnimationFrame(() => loader.classList.add('show'));
+    setTimeout(() => loader.classList.add('close'), 500);
+    setTimeout(() => loader.classList.add('hide'), 1400);
+
+    /* ── Lenis smooth scroll ── */
+    let lenis;
+    if (!reducedMotion && window.Lenis) {
+        lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1 });
+
+        function raf(time) { lenis.raf(time);
+            requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+    }
+
+    /* ── custom cursor ── */
+    const cursor = document.getElementById('cursor');
+    window.addEventListener('mousemove', e => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
+    document.querySelectorAll('[data-hover]').forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+    });
+
+    /* ── nav shrink ── */
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('shrink', window.scrollY > 40);
+    });
+
+    /* ── hero mock parallax ── */
+    const laptop = document.getElementById('laptop');
+    const heroMock = document.getElementById('heroMock');
+    document.querySelector('.hero').addEventListener('mousemove', e => {
+        if (reducedMotion) return;
+        const rect = heroMock.getBoundingClientRect();
+        const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+        const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+        laptop.style.transform = `rotate(${2 + x*4}deg) translateY(${y*10}px)`;
+    });
+
+    /* ── scroll reveal ── */
+    const revealEls = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                entry.target.style.transitionDelay = (i % 4) * 80 + 'ms';
+                entry.target.style.transition =
+                    'opacity 900ms cubic-bezier(.22,1,.36,1), transform 900ms cubic-bezier(.22,1,.36,1)';
+                entry.target.style.opacity = 1;
+                entry.target.style.transform = 'translateY(0)';
+                io.unobserve(entry.target);
+            }
         });
-        document.querySelectorAll('[data-hover]').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
-        });
+    }, { threshold: 0.2 });
+    revealEls.forEach(el => io.observe(el));
 
-        /* ── nav shrink ── */
-        const nav = document.getElementById('nav');
-        window.addEventListener('scroll', () => {
-            nav.classList.toggle('shrink', window.scrollY > 40);
+    /* ── video wrapper reveal ── */
+    const videoWrapper = document.getElementById('videoWrapper');
+    const videoIo = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                videoWrapper.classList.add('reveal-in');
+                videoIo.unobserve(entry.target);
+            }
         });
+    }, { threshold: 0.15 });
+    videoIo.observe(videoWrapper);
 
-        /* ── hero mock parallax ── */
-        const laptop = document.getElementById('laptop');
-        const heroMock = document.getElementById('heroMock');
-        document.querySelector('.hero').addEventListener('mousemove', e => {
-            if (reducedMotion) return;
-            const rect = heroMock.getBoundingClientRect();
-            const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
-            const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
-            laptop.style.transform = `rotate(${2 + x*4}deg) translateY(${y*10}px)`;
+    /* ── form wrapper reveal ── */
+    const formWrapper = document.getElementById('formWrapper');
+    const formIo = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                formWrapper.classList.add('reveal-in');
+                formIo.unobserve(entry.target);
+            }
         });
+    }, { threshold: 0.15 });
+    formIo.observe(formWrapper);
 
-        /* ── scroll reveal ── */
-        const revealEls = document.querySelectorAll('.reveal');
-        const io = new IntersectionObserver((entries) => {
-            entries.forEach((entry, i) => {
-                if (entry.isIntersecting) {
-                    entry.target.style.transitionDelay = (i % 4) * 80 + 'ms';
-                    entry.target.style.transition =
-                        'opacity 900ms cubic-bezier(.22,1,.36,1), transform 900ms cubic-bezier(.22,1,.36,1)';
-                    entry.target.style.opacity = 1;
-                    entry.target.style.transform = 'translateY(0)';
-                    io.unobserve(entry.target);
+    /* ── gallery parallax ── */
+    const mockups = document.querySelectorAll('.mockup');
+    window.addEventListener('scroll', () => {
+        if (reducedMotion) return;
+        const stage = document.querySelector('.gallery-stage');
+        const rect = stage.getBoundingClientRect();
+        const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+        mockups.forEach(m => {
+            const speed = parseFloat(m.dataset.speed);
+            const offset = (progress - 0.5) * 200 * speed;
+            m.style.transform = `translateY(${offset}px)`;
+        });
+    });
+
+    /* ── subtle sound ── */
+    let audioCtx;
+
+    function playTone(freq, duration, type = 'sine', vol = 0.05) {
+        if (reducedMotion) return;
+        audioCtx = audioCtx || new(window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain).connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+    }
+    document.querySelectorAll('[data-sound="tap"]').forEach(el => {
+        el.addEventListener('mouseenter', () => playTone(720, 0.06, 'sine', 0.02));
+        el.addEventListener('click', () => playTone(420, 0.09, 'sine', 0.04));
+    });
+
+    /* ── smooth anchor nav ── */
+    document.querySelectorAll('[data-nav]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                if (lenis) {
+                    lenis.scrollTo(targetElement, { offset: -80 });
+                } else {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
-            });
-        }, { threshold: 0.2 });
-        revealEls.forEach(el => io.observe(el));
-
-        /* ── form wrapper reveal ── */
-        const formWrapper = document.getElementById('formWrapper');
-        const formIo = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    formWrapper.classList.add('reveal-in');
-                    formIo.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.15 });
-        formIo.observe(formWrapper);
-
-        /* ── gallery parallax ── */
-        const mockups = document.querySelectorAll('.mockup');
-        window.addEventListener('scroll', () => {
-            if (reducedMotion) return;
-            const stage = document.querySelector('.gallery-stage');
-            const rect = stage.getBoundingClientRect();
-            const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-            mockups.forEach(m => {
-                const speed = parseFloat(m.dataset.speed);
-                const offset = (progress - 0.5) * 200 * speed;
-                m.style.transform = `translateY(${offset}px)`;
-            });
+            }
         });
+    });
 
-        /* ── subtle sound ── */
-        let audioCtx;
+    /* ── track Google Form submission via gtag ── */
+    window.addEventListener('message', function(event) {
+        // If the form sends a submission event, we can track it.
+        // Google Forms doesn't send a standard postMessage on submit,
+        // so we rely on the 'change' event workaround below.
+    });
 
-        function playTone(freq, duration, type = 'sine', vol = 0.05) {
-            if (reducedMotion) return;
-            audioCtx = audioCtx || new(window.AudioContext || window.webkitAudioContext)();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = type;
-            osc.frequency.value = freq;
-            gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
-            osc.connect(gain).connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + duration);
-        }
-        document.querySelectorAll('[data-sound="tap"]').forEach(el => {
-            el.addEventListener('mouseenter', () => playTone(720, 0.06, 'sine', 0.02));
-            el.addEventListener('click', () => playTone(420, 0.09, 'sine', 0.04));
+    const formIframe = document.querySelector('.form-wrapper iframe');
+    if (formIframe) {
+        formIframe.addEventListener('load', function() {
+            console.log('Google Form loaded');
         });
-
-        /* ── smooth anchor nav ── */
-        document.querySelectorAll('[data-nav]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    if (lenis) {
-                        lenis.scrollTo(targetElement, { offset: -80 });
-                    } else {
-                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                }
-            });
-        });
-
-        /* ── track Google Form submission via gtag ── */
-        // Listen for messages from the embedded form (if any)
-        window.addEventListener('message', function(event) {
-            // If the form sends a submission event, we can track it.
-            // Google Forms doesn't send a standard postMessage on submit,
-            // so we rely on the 'change' event workaround below.
-        });
-
-        // Optional: track when the form iframe loads
-        const formIframe = document.querySelector('.form-wrapper iframe');
-        if (formIframe) {
-            formIframe.addEventListener('load', function() {
-                console.log('Google Form loaded');
-                // You could fire a gtag event here if needed
-            });
-        }
-    </script>
+    }
+</script>
 
 </body>
 </html>
